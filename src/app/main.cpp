@@ -1,6 +1,8 @@
-#include "defs.h"
+#include "ast.h"
 #include <iostream>
 #include <lexer.h>
+#include <memory>
+#include <print_visitor.h>
 
 void print_token(Token tok)
 {
@@ -37,11 +39,24 @@ int main()
 {
     Lexer lexer;
 
-    auto tokens = lexer.tokenize("5+1-3+4");
+    // auto tokens = lexer.tokenize("5+1-3+4");
 
-    for(auto tok : tokens)
-    {
-        print_token(tok);
-    }
+    // for(auto tok : tokens)
+    // {
+    //     print_token(tok);
+    // }
+
+    auto root = std::make_unique<BinOp>(
+        BinOp::BinOpKind::PLUS,
+        std::make_unique<Number>(5),
+        std::make_unique<BinOp>(
+            BinOp::BinOpKind::MUL,
+            std::make_unique<Number>(5),
+            std::make_unique<Number>(5)
+        )
+    );
+
+    PrintAST printer;
+    printer.print(root.get());
 
 }

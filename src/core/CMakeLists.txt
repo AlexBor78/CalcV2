@@ -9,6 +9,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(sources 
     lexer.cpp
+    ast.cpp
+    print_visitor.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${sources})
