@@ -11,6 +11,7 @@ cmake_install.cmake
 Makefile
 *.cmake
 !CMakeLists.txt
+.cache
 
 # Compiler output
 *.o
