@@ -12,6 +12,8 @@ set(sources
     ast.cpp
     print_visitor.cpp
     parser.cpp
+    vm.cpp
+    compiler.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${sources})

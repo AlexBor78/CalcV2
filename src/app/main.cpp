@@ -3,6 +3,9 @@
 #include <print_visitor.h>
 #include <parser.h>
 
+#include <compiler.h>
+#include <vm.h>
+
 void print_token(Token tok)
 {
     switch (tok.tt)
@@ -44,14 +47,25 @@ void print_token(Token tok)
 
 int main()
 {
-    std::cout << "Start parsing!" << std::endl;
-    
+    // parsing
+    std::cout << "Start parsing..." << std::endl;
     Parser parser;
     auto root = parser.parse("5*(5+5)");
-
     std::cout << "Parsing done!" << std::endl;
 
+    // print ast
     PrintAST printer;
     printer.print(root.get());
 
+    // compiling
+    std::cout << "Start compiling..." << std::endl;
+    Compiler compiler;
+    auto code = compiler.compile(root.get());
+    std::cout << "Done Compiling!" << std::endl;
+
+    // executing
+    std::cout << "Start executing..." << std::endl;
+    VM vm;
+    auto result = vm.exec(code);
+    std::cout << "Executing Done! Result: " << result << std::endl;
 }
