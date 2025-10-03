@@ -1,3 +1,4 @@
+#include "defs.h"
 #include <iostream>
 #include <print_visitor.h>
 #include <parser.h>
@@ -28,6 +29,14 @@ void print_token(Token tok)
 
         case(TokenType::END):
             std::cout << "Token: END" << std::endl;
+            break;
+            
+        case(TokenType::LEFT_BRACKET):
+            std::cout << "Token: LEFT_BRACKET" << std::endl;
+            break;
+
+        case(TokenType::RIGHT_BRACKET):
+            std::cout << "Token: RIGHT_BRACKET" << std::endl;
             break;
     }
     std::cout << "Symbol: " << tok.sym << std::endl;
