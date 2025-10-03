@@ -4,7 +4,7 @@
 
 class ConstVisitor;
 
-class Expr 
+class Expr
 {
 protected:
     Expr() = default;
@@ -32,8 +32,8 @@ public:
     BinOp() = default;
     BinOp(
         BinOpKind _op,
-        std::unique_ptr<Expr>&& _left,
-        std::unique_ptr<Expr>&& _right
+        std::unique_ptr<Expr> _left,
+        std::unique_ptr<Expr> _right
     ):  op(_op)
     ,   left(std::move(_left))
     ,   right(std::move(_right))

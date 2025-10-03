@@ -11,6 +11,7 @@ set(sources
     lexer.cpp
     ast.cpp
     print_visitor.cpp
+    parser.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${sources})
