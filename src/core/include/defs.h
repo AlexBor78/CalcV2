@@ -9,6 +9,8 @@ enum class TokenType : uint8_t
     MUL,
     DIV,
     NUMBER,
+    LEFT_BRACKET,
+    RIGHT_BRACKET,
     END
 };
 

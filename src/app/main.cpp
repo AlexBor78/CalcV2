@@ -38,7 +38,7 @@ int main()
     std::cout << "Start parsing!" << std::endl;
     
     Parser parser;
-    auto root = parser.parse("5*3+5*3");
+    auto root = parser.parse("5*(5+5)");
 
     std::cout << "Parsing done!" << std::endl;
 

@@ -32,6 +32,14 @@ std::vector<Token> Lexer::tokenize(const std::string& _input)
             case('5'): case('6'): case('7'): case('8'): case('9'):
                 tokens.push_back({TokenType::NUMBER, ch});
                 continue;
+
+            case('('):
+                tokens.push_back({TokenType::LEFT_BRACKET, ch});
+                continue;
+            case(')'):
+                tokens.push_back({TokenType::RIGHT_BRACKET, ch});
+                continue;
+
             default:
                 std::cerr << "Unknow token: " << ch << std::endl;
                 break;

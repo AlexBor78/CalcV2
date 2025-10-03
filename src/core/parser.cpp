@@ -20,6 +20,18 @@ std::unique_ptr<Expr> Parser::parse_prim()
     {
         return std::make_unique<Number>(std::stoi(std::string(1, next().sym)));
     }
+    if(peak().tt == TokenType::LEFT_BRACKET)
+    {
+        next();
+        auto prim = parse_expr();
+        if(peak().tt != TokenType::RIGHT_BRACKET)
+        {
+            std::cerr << "missing )" << std::endl;
+            return std::move(prim);
+        }
+        next();
+        return std::move(prim);
+    }
     std::cerr << "bad prim" << std::endl;
     throw std::runtime_error("bad primary");
     return nullptr;
