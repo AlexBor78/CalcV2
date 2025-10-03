@@ -4,47 +4,132 @@
 
 std::vector<Token> Lexer::tokenize(const std::string& _input)
 {
-    for(const auto& ch : _input)
+    input = _input;
+    pos = 0;
+    while(pos < input.size())
     {
-        if(isspace(ch))
+        if(isspace(curr()))
         {
+            skip_spaces();
+        }
+
+        if(isdigit(curr()))
+        {
+            tokenize_number();
             continue;
         }
-        switch (ch)
+
+        if(is_punct())
         {
-            case('+'):
-                tokens.push_back({TokenType::PLUS, ch});
-                continue;
-
-            case('-'):
-                tokens.push_back({TokenType::PLUS, ch});
-                continue;
-
-            case('*'):
-                tokens.push_back({TokenType::MUL, ch});
-                continue;
-
-            case('/'):
-                tokens.push_back({TokenType::DIV, ch});
-                continue;
-
-            case('0'): case('1'): case('2'): case('3'): case('4'):
-            case('5'): case('6'): case('7'): case('8'): case('9'):
-                tokens.push_back({TokenType::NUMBER, ch});
-                continue;
-
-            case('('):
-                tokens.push_back({TokenType::LEFT_BRACKET, ch});
-                continue;
-            case(')'):
-                tokens.push_back({TokenType::RIGHT_BRACKET, ch});
-                continue;
-
-            default:
-                std::cerr << "Unknow token: " << ch << std::endl;
-                break;
+            tokenize_punct();
+            continue;
         }
+        std::cerr << "Bad token: " << curr() << std::endl;
     }
     tokens.push_back({TokenType::END});
     return tokens;
+}
+
+char Lexer::curr()
+{
+    if(pos < input.size())
+    {
+        return input[pos];
+    }
+    return 0;
+}
+char Lexer::peak(int offset=1)
+{
+    if(pos + offset < input.size())
+    {
+        return input[pos + offset];
+    }
+    return 0;
+}
+char Lexer::next(int offset=1)
+{
+    pos+=offset;
+    if(pos < input.size())
+    {
+        return input[pos];
+    }
+    return 0;
+}
+
+bool Lexer::is_punct()
+{
+    return curr() == '+'
+    || curr() == '-'
+    || curr() == '*'
+    || curr() == '/'
+    || curr() == '('
+    || curr() == ')';
+}
+
+void Lexer::add_token(Token tok)
+{
+    tokens.push_back(tok);
+}
+void Lexer::add_token(TokenType tok)
+{
+    tokens.push_back({tok, nullptr});
+}
+void Lexer::add_token(TokenType tok, const char ch)
+{
+    tokens.push_back({tok, std::string(1, ch)});
+}
+void Lexer::add_token(TokenType tok, const char* ch)
+{
+    tokens.push_back({tok, ch});
+}
+
+void Lexer::skip_spaces()
+{
+    while (pos < input.size() && isspace(curr()))
+    {
+        next();
+    }
+}
+void Lexer::tokenize_number()
+{
+    std::string buf("");
+    while (pos < input.size() && isdigit(curr()))
+    {
+        buf += curr();
+        next();
+    }
+    add_token(TokenType::NUMBER, buf.c_str());
+}
+void Lexer::tokenize_punct()
+{
+    auto ch = curr(); 
+    next();
+    switch (ch)
+    {
+        case('+'):
+            add_token(TokenType::PLUS, ch);
+            return;
+
+        case('-'):
+            add_token(TokenType::MINUS, ch);
+            return;
+
+        case('*'):
+            add_token(TokenType::MUL, ch);
+            return;
+
+        case('/'):
+            add_token(TokenType::DIV, ch);
+            return;
+
+        case('('):
+            add_token(TokenType::LEFT_BRACKET, ch);
+            return;
+
+        case(')'):
+            add_token(TokenType::RIGHT_BRACKET, ch);
+            return;
+        default:
+            std::cerr << "Unknow operator: " << ch << std::endl;
+    }
 }

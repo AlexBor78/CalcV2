@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 enum class TokenType : uint8_t
 {
@@ -17,7 +18,7 @@ enum class TokenType : uint8_t
 struct Token
 {
     TokenType tt;
-    const char sym;
+    std::string sym;
 };
 
 enum class OpCode : uint8_t

@@ -18,7 +18,7 @@ std::unique_ptr<Expr> Parser::parse_prim()
     auto tok = peak();
     if(tok.tt == TokenType::NUMBER)
     {
-        return std::make_unique<Number>(std::stoi(std::string(1, next().sym)));
+        return std::make_unique<Number>(std::stoi(next().sym));
     }
     if(peak().tt == TokenType::LEFT_BRACKET)
     {

@@ -16,8 +16,9 @@ void Compiler::visit_num(const Number& num)
 
 void Compiler::visit_op(const BinOp& op)
 {
-    op.get_left()->accept(*this);
+    // change order because of stack
     op.get_right()->accept(*this);
+    op.get_left()->accept(*this);
     switch (op.get_op())
     {
         case(BinOp::BinOpKind::PLUS):

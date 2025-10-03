@@ -1,8 +1,8 @@
-#include "defs.h"
 #include <iostream>
 #include <print_visitor.h>
-#include <parser.h>
 
+#include <lexer.h>
+#include <parser.h>
 #include <compiler.h>
 #include <vm.h>
 
@@ -47,10 +47,18 @@ void print_token(Token tok)
 
 int main()
 {
+    // Lexer lexer;
+    // auto tokens = lexer.tokenize("10*(100-50)");
+
+    // for(auto tok : tokens)
+    // {
+    //     print_token(tok);
+    // }
+
     // parsing
     std::cout << "Start parsing..." << std::endl;
     Parser parser;
-    auto root = parser.parse("5*(5+5)");
+    auto root = parser.parse("10*(100-50)");
     std::cout << "Parsing done!" << std::endl;
 
     // print ast
