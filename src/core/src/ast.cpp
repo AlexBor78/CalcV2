@@ -1,52 +1,55 @@
 #include <ast.h>
 
-// BinOp
-
-void BinOp::accept(ConstVisitor& visitor) const noexcept
+namespace Calc::ast
 {
-    visitor.visit_binop(*this);
-}
+    // BinOp
 
-BinOp::Kind BinOp::get_op() const
-{
-    return op;
-}
+    void BinOp::accept(ConstVisitor& visitor) const noexcept
+    {
+        visitor.visit_binop(*this);
+    }
 
-Expr* BinOp::get_left() const
-{
-    return left.get();
-}
+    BinOp::Kind BinOp::get_op() const
+    {
+        return op;
+    }
 
-Expr* BinOp::get_right() const
-{
-    return right.get();
-}
+    Expr* BinOp::get_left() const
+    {
+        return left.get();
+    }
 
-// UnaryOp
+    Expr* BinOp::get_right() const
+    {
+        return right.get();
+    }
 
-void UnaryOp::accept(ConstVisitor& visitor) const noexcept
-{
-    visitor.visit_unaryop(*this);
-}
+    // UnaryOp
 
-UnaryOp::Kind UnaryOp::get_kind() const
-{
-    return kind;
-}
+    void UnaryOp::accept(ConstVisitor& visitor) const noexcept
+    {
+        visitor.visit_unaryop(*this);
+    }
 
-Expr* UnaryOp::get_child() const
-{
-    return child.get();
-}
+    UnaryOp::Kind UnaryOp::get_kind() const
+    {
+        return kind;
+    }
 
-// Number
+    Expr* UnaryOp::get_child() const
+    {
+        return child.get();
+    }
 
-void Number::accept(ConstVisitor& visitor) const noexcept
-{
-    visitor.visit_num(*this);
-}
+    // Number
 
-int Number::get_num() const
-{
-    return num;
+    void Number::accept(ConstVisitor& visitor) const noexcept
+    {
+        visitor.visit_num(*this);
+    }
+
+    int Number::get_num() const
+    {
+        return num;
+    }
 }

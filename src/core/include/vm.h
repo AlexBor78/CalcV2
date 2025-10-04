@@ -5,16 +5,17 @@
 
 #include <defs.h>
 
-
-class VM
+namespace Calc
 {
-private:
+    class VM
+    {
+    private:
     std::stack<int> stack;
 
-private:
+    private:
     int pop();
-    
-private:
+
+    private:
     void push(int);
     void add();
     void sub();
@@ -22,10 +23,11 @@ private:
     void div();
     void inverse();
 
-public:
+    public:
     VM() = default;
     ~VM() = default;
 
-public:
-    int exec(const std::vector<Instruction>&);
-};
+    public:
+    int exec(const std::vector<types::Instruction>&);
+    };
+}

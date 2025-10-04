@@ -3,36 +3,39 @@
 #include <cstdint>
 #include <string>
 
-enum class TokenType : uint8_t
+namespace Calc::types
 {
-    PLUS,
-    MINUS,
-    MUL,
-    DIV,
-    NUMBER,
-    LEFT_BRACKET,
-    RIGHT_BRACKET,
-    END
-};
+    enum class TokenType : uint8_t
+    {
+        PLUS,
+        MINUS,
+        MUL,
+        DIV,
+        NUMBER,
+        LEFT_BRACKET,
+        RIGHT_BRACKET,
+        END
+    };
 
-struct Token
-{
-    TokenType tt;
-    std::string sym;
-};
+    struct Token
+    {
+        TokenType tt;
+        std::string sym;
+    };
 
-enum class OpCode : uint8_t
-{
-    PUSH,
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    INVERSE
-};
+    enum class OpCode : uint8_t
+    {
+        PUSH,
+        ADD,
+        SUB,
+        MUL,
+        DIV,
+        INVERSE
+    };
 
-struct Instruction
-{
-    OpCode op;
-    int operand;
-};
+    struct Instruction
+    {
+        OpCode op;
+        int operand;
+    };
+}

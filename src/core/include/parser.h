@@ -1,32 +1,35 @@
 #pragma once
 
+#include "defs.h"
 #include <memory>
 #include <string>
 #include <lexer.h>
 #include <ast.h>
 
-class Parser
+namespace Calc
 {
-private:
-    Lexer lexer;
-    std::vector<Token> tokens;
-    size_t pos{0};
-    
-public:
-    Parser() = default;
-    ~Parser() = default;
+    class Parser
+    {
+    private:
+        Lexer lexer;
+        std::vector<types::Token> tokens;
+        size_t pos{0};
+        
+    public:
+        Parser() = default;
+        ~Parser() = default;
 
-public:
+    public:
 
-    std::unique_ptr<Expr> parse(const std::string&);
+        std::unique_ptr<ast::Expr> parse(const std::string&);
 
-private:
-    Token curr();
-    Token peak(int);
-    Token next(int);
+    private:
+        types::Token curr();
+        types::Token peak(int);
+        types::Token next(int);
 
-    std::unique_ptr<Expr> parse_prim();
-    std::unique_ptr<Expr> parse_expr();
-    std::unique_ptr<Expr> parse_term();
-
-};
+        std::unique_ptr<ast::Expr> parse_prim();
+        std::unique_ptr<ast::Expr> parse_expr();
+        std::unique_ptr<ast::Expr> parse_term();
+    };
+}
