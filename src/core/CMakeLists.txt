@@ -8,11 +8,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 set(sources 
-    src/lexer.cpp
-    src/ast.cpp
-    src/parser.cpp
-    src/vm.cpp
-    src/compiler.cpp
+    src/ast/ast.cpp
+    src/compile/lexer.cpp
+    src/compile/parser.cpp
+    src/compile/compiler.cpp
+    src/runtime/vm.cpp
     src/utils/utils.cpp
     src/utils/printast.cpp
 )

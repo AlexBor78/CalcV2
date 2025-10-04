@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cctype>
-#include <lexer.h>
+#include <compile/lexer.h>
 
 namespace Calc
 {

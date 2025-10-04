@@ -1,4 +1,4 @@
-#include <ast.h>
+#include <ast/ast.h>
 
 namespace Calc::ast
 {

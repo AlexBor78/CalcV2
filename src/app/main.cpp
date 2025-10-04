@@ -3,10 +3,10 @@
 #include <utils/printast.h>
 #include <utils/utils.h>
 
-#include <lexer.h>
-#include <parser.h>
-#include <compiler.h>
-#include <vm.h>
+#include <compile/lexer.h>
+#include <compile/parser.h>
+#include <compile/compiler.h>
+#include <runtime/vm.h>
 
 int main()
 {

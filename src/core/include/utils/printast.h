@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ast.h>
 #include <string>
+#include <ast/ast.h>
 
 namespace Calc::utils
 {

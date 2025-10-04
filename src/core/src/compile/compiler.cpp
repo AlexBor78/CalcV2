@@ -1,6 +1,4 @@
-#include "ast.h"
-#include "defs.h"
-#include <compiler.h>
+#include <compile/compiler.h>
 #include <vector>
 
 namespace Calc

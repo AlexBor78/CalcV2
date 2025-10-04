@@ -1,10 +1,10 @@
 #pragma once
 
-#include "defs.h"
 #include <memory>
 #include <string>
-#include <lexer.h>
-#include <ast.h>
+
+#include <compile/lexer.h>
+#include <ast/ast.h>
 
 namespace Calc
 {

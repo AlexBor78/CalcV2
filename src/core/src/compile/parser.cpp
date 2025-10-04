@@ -1,11 +1,9 @@
-#include "ast.h"
-#include "defs.h"
-#include "lexer.h"
 #include <memory>
-#include <parser.h>
 #include <stdexcept>
 #include <string>
 #include <iostream>
+
+#include <compile/parser.h>
 
 namespace Calc
 {

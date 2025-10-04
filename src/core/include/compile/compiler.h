@@ -3,7 +3,7 @@
 #include <vector>
 
 #include <defs.h>
-#include <ast.h>
+#include <ast/ast.h>
 
 namespace Calc
 {

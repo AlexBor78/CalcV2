@@ -1,6 +1,5 @@
-#include "defs.h"
 #include <stdexcept>
-#include <vm.h>
+#include <runtime/vm.h>
 
 namespace Calc
 {
