@@ -69,8 +69,9 @@ void VM::sub()
     {
         throw std::runtime_error("not enough operands");
     }
-    int op1 = pop();
+    // change order because of stack
     int op2 = pop();
+    int op1 = pop();
     push(op1 - op2);
 }
 
@@ -91,8 +92,9 @@ void VM::div()
     {
         throw std::runtime_error("not enough operands");
     }
-    int op1 = pop();
+    // change order because of stack
     int op2 = pop();
+    int op1 = pop();
     if(op2 == 0)
     {
         std::runtime_error("Division by 0");

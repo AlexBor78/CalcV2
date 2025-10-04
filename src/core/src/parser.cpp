@@ -63,7 +63,6 @@ std::unique_ptr<Expr> Parser::parse_prim()
     if((curr().tt == TokenType::PLUS || curr().tt == TokenType::MINUS)
         && (peak().tt == TokenType::NUMBER || peak().tt == TokenType::LEFT_BRACKET)
     ) {
-        std::cout << "Unary!" << std::endl;
         if(curr().tt == TokenType::MINUS)
         {
             next();

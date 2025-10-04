@@ -1,3 +1,4 @@
+#include "defs.h"
 #include <iostream>
 #include <print_visitor.h>
 
@@ -45,6 +46,36 @@ void print_token(Token tok)
     std::cout << "Symbol: " << tok.sym << std::endl;
 }
 
+void print_instruct(Instruction instruct)
+{
+    switch (instruct.op)
+    {
+        case(OpCode::PUSH):
+            std::cout << "PUSH " << instruct.operand << std::endl;
+            return;
+
+        case(OpCode::ADD):
+            std::cout << "ADD " << std::endl;
+            return;
+
+        case(OpCode::SUB):
+            std::cout << "SUB " << std::endl;
+            return;
+
+        case(OpCode::MUL):
+            std::cout << "MUL " << std::endl;
+            return;
+
+        case(OpCode::DIV):
+            std::cout << "DIV " << std::endl;
+            return;
+
+        case(OpCode::INVERSE):
+            std::cout << "INVERSE " << std::endl;
+            return;
+    }
+}
+
 int main()
 {
     // Lexer lexer;
@@ -70,6 +101,12 @@ int main()
     Compiler compiler;
     auto code = compiler.compile(root.get());
     std::cout << "Done Compiling!" << std::endl;
+
+    // print bytecode
+    for(auto instruct : code)
+    {
+        print_instruct(instruct);
+    }
 
     // executing
     std::cout << "Start executing..." << std::endl;

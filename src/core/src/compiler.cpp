@@ -25,9 +25,8 @@ void Compiler::visit_unaryop(const UnaryOp& op)
 
 void Compiler::visit_binop(const BinOp& op)
 {
-    // change order because of stack
-    op.get_right()->accept(*this);
     op.get_left()->accept(*this);
+    op.get_right()->accept(*this);
     switch (op.get_op())
     {
         case(BinOp::Kind::PLUS):
