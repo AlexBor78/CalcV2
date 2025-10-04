@@ -1,12 +1,9 @@
 #pragma once
 
-#include "defs.h"
-#include <cstddef>
+#include <memory>
+#include <string>
 #include <lexer.h>
 #include <ast.h>
-#include <memory>
-#include <pthread.h>
-#include <string>
 
 class Parser
 {
@@ -23,31 +20,13 @@ public:
 
     std::unique_ptr<Expr> parse(const std::string&);
 
-public:
-    inline Token next()
-    {
-        if(pos < tokens.size())
-        {
-            pos++;
-            return tokens[pos-1];
-        }
-        return {TokenType::END};
-    }
-    inline Token peak()
-    {
-        if(pos < tokens.size())
-        {
-            return tokens[pos];
-        }
-        return {TokenType::END};
-    }
-
 private:
+    Token curr();
+    Token peak(int);
+    Token next(int);
 
     std::unique_ptr<Expr> parse_prim();
     std::unique_ptr<Expr> parse_expr();
     std::unique_ptr<Expr> parse_term();
-
-
 
 };

@@ -20,6 +20,7 @@ private:
     void sub();
     void mul();
     void div();
+    void inverse();
 
 public:
     VM() = default;

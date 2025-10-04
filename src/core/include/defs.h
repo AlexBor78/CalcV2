@@ -27,7 +27,8 @@ enum class OpCode : uint8_t
     ADD,
     SUB,
     MUL,
-    DIV
+    DIV,
+    INVERSE
 };
 
 struct Instruction

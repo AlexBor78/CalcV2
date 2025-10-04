@@ -27,6 +27,9 @@ int VM::exec(const std::vector<Instruction>& instructs)
             case(OpCode::DIV):
                 div();
                 continue;
+            case (OpCode::INVERSE):
+                inverse();
+                continue;
         }
     }
     
@@ -57,7 +60,7 @@ void VM::add()
     }
     int op1 = pop();
     int op2 = pop();
-    stack.push(op1 + op2);
+    push(op1 + op2);
 }
 
 void VM::sub()
@@ -68,7 +71,7 @@ void VM::sub()
     }
     int op1 = pop();
     int op2 = pop();
-    stack.push(op1 - op2);
+    push(op1 - op2);
 }
 
 void VM::mul()
@@ -79,7 +82,7 @@ void VM::mul()
     }
     int op1 = pop();
     int op2 = pop();
-    stack.push(op1 * op2);
+    push(op1 * op2);
 }
 
 void VM::div()
@@ -94,5 +97,15 @@ void VM::div()
     {
         std::runtime_error("Division by 0");
     }
-    stack.push(op1 / op2);
+    push(op1 / op2);
+}
+
+void VM::inverse()
+{
+    if(stack.empty())
+    {
+        throw std::runtime_error("Stack is empty");
+    }
+    int op = pop();
+    push(-op);
 }

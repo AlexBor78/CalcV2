@@ -14,26 +14,35 @@ void Compiler::visit_num(const Number& num)
     code.push_back({OpCode::PUSH, num.get_num()});
 }
 
-void Compiler::visit_op(const BinOp& op)
+void Compiler::visit_unaryop(const UnaryOp& op)
+{
+    op.get_child()->accept(*this);
+    if(op.get_kind() == UnaryOp::Kind::MINUS)
+    {
+        code.push_back({OpCode::INVERSE});
+    }
+}
+
+void Compiler::visit_binop(const BinOp& op)
 {
     // change order because of stack
     op.get_right()->accept(*this);
     op.get_left()->accept(*this);
     switch (op.get_op())
     {
-        case(BinOp::BinOpKind::PLUS):
+        case(BinOp::Kind::PLUS):
             code.push_back({OpCode::ADD});
             break;
 
-        case(BinOp::BinOpKind::MINUS):
+        case(BinOp::Kind::MINUS):
             code.push_back({OpCode::SUB});
             break;
 
-        case(BinOp::BinOpKind::MUL):
+        case(BinOp::Kind::MUL):
             code.push_back({OpCode::MUL});
             break;
 
-        case(BinOp::BinOpKind::DIV):
+        case(BinOp::Kind::DIV):
             code.push_back({OpCode::DIV});
             break;
     }

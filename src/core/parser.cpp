@@ -13,18 +13,45 @@ std::unique_ptr<Expr> Parser::parse(const std::string& str)
     return parse_expr();
 }
 
+Token Parser::curr()
+{
+    if(pos < tokens.size())
+    {
+        return tokens[pos];
+    }
+    return {TokenType::END};
+}
+Token Parser::peak(int offset=1)
+{
+    if(pos + offset < tokens.size())
+    {
+        return tokens[pos + offset];
+    }
+    return {TokenType::END};
+}
+Token Parser::next(int offset=1)
+{
+    pos+=offset;
+    if(pos < tokens.size())
+    {
+        return tokens[pos];
+    }
+    return {TokenType::END};
+}
+
 std::unique_ptr<Expr> Parser::parse_prim()
 {
-    auto tok = peak();
-    if(tok.tt == TokenType::NUMBER)
+    if(curr().tt == TokenType::NUMBER)
     {
-        return std::make_unique<Number>(std::stoi(next().sym));
-    }
-    if(peak().tt == TokenType::LEFT_BRACKET)
-    {
+        auto tok = curr();
         next();
+        return std::make_unique<Number>(std::stoi(tok.sym));
+    }
+    if(curr().tt == TokenType::LEFT_BRACKET)
+    {
+        next(); // skip bracket
         auto prim = parse_expr();
-        if(peak().tt != TokenType::RIGHT_BRACKET)
+        if(curr().tt != TokenType::RIGHT_BRACKET)
         {
             std::cerr << "missing )" << std::endl;
             return std::move(prim);
@@ -32,6 +59,18 @@ std::unique_ptr<Expr> Parser::parse_prim()
         next();
         return std::move(prim);
     }
+    // unary
+    if((curr().tt == TokenType::PLUS || curr().tt == TokenType::MINUS)
+        && (peak().tt == TokenType::NUMBER || peak().tt == TokenType::LEFT_BRACKET)
+    ) {
+        std::cout << "Unary!" << std::endl;
+        if(curr().tt == TokenType::MINUS)
+        {
+            next();
+            return std::make_unique<UnaryOp>(UnaryOp::Kind::MINUS, parse_prim());
+        }
+    }
+
     std::cerr << "bad prim" << std::endl;
     throw std::runtime_error("bad primary");
     return nullptr;
@@ -40,21 +79,21 @@ std::unique_ptr<Expr> Parser::parse_prim()
 std::unique_ptr<Expr> Parser::parse_expr()
 {
     auto left = parse_term();
-    while(peak().tt != TokenType::END)
+    while(curr().tt != TokenType::END)
     {
-        auto op = peak();
+        auto op = curr();
         switch (op.tt)
         {
             case(TokenType::PLUS):
                 next();
                 left = std::make_unique<BinOp>(
-                    BinOp::BinOpKind::PLUS, std::move(left), parse_term()
+                    BinOp::Kind::PLUS, std::move(left), parse_term()
                 ); break;
 
             case(TokenType::MINUS):
                 next();
-                return std::make_unique<BinOp>(
-                    BinOp::BinOpKind::MINUS, std::move(left), parse_term()
+                left = std::make_unique<BinOp>(
+                    BinOp::Kind::MINUS, std::move(left), parse_term()
                 ); break;
 
             default:
@@ -67,21 +106,21 @@ std::unique_ptr<Expr> Parser::parse_expr()
 std::unique_ptr<Expr> Parser::parse_term()
 {
     auto left = parse_prim();
-    while(peak().tt != TokenType::END)
+    while(curr().tt != TokenType::END)
     {
-        auto op = peak();
+        auto op = curr();
         switch (op.tt)
         {
             case(TokenType::MUL):
                 next();
                 left = std::make_unique<BinOp>(
-                    BinOp::BinOpKind::MUL, std::move(left), parse_prim()
+                    BinOp::Kind::MUL, std::move(left), parse_prim()
                 ); break;
 
             case(TokenType::DIV):
                 next();
                 left = std::make_unique<BinOp>(
-                    BinOp::BinOpKind::DIV, std::move(left), parse_prim()
+                    BinOp::Kind::DIV, std::move(left), parse_prim()
                 ); break;
 
             default:

@@ -4,10 +4,10 @@
 
 void BinOp::accept(ConstVisitor& visitor) const noexcept
 {
-    visitor.visit_op(*this);
+    visitor.visit_binop(*this);
 }
 
-BinOp::BinOpKind BinOp::get_op() const
+BinOp::Kind BinOp::get_op() const
 {
     return op;
 }
@@ -20,6 +20,23 @@ Expr* BinOp::get_left() const
 Expr* BinOp::get_right() const
 {
     return right.get();
+}
+
+// UnaryOp
+
+void UnaryOp::accept(ConstVisitor& visitor) const noexcept
+{
+    visitor.visit_unaryop(*this);
+}
+
+UnaryOp::Kind UnaryOp::get_kind() const
+{
+    return kind;
+}
+
+Expr* UnaryOp::get_child() const
+{
+    return child.get();
 }
 
 // Number

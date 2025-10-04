@@ -58,7 +58,7 @@ int main()
     // parsing
     std::cout << "Start parsing..." << std::endl;
     Parser parser;
-    auto root = parser.parse("10*(100-50)");
+    auto root = parser.parse("10*(100-(-50))");
     std::cout << "Parsing done!" << std::endl;
 
     // print ast
