@@ -1,3 +1,4 @@
+#include "runtime/vtables.h"
 #include <iostream>
 #include <utils/utils.h>
 
@@ -72,5 +73,19 @@ namespace Calc::utils
                 std::cout << "INVERSE " << std::endl;
                 return;
         }
+    }
+
+    void print_value(const runtime::Value & v)
+    {
+        std::cout << v.get_name() << "(";
+        if(v.get_vtable() == runtime::get_int_vtable())
+        {
+            std::cout << v.as<int>();
+        }
+        if(v.get_vtable() == runtime::get_double_vtable())
+        {
+            std::cout << v.as<double>();
+        }
+        std::cout << ")" << std::endl;
     }
 }

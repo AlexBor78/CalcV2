@@ -20,6 +20,7 @@ set(sources
     src/compile/compiler.cpp
     src/compile/typechecker.cpp
 # runtime
+    src/runtime/vtables.cpp
     src/runtime/value.cpp
     src/runtime/vm.cpp
 )

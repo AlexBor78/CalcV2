@@ -19,11 +19,16 @@ int main()
     //     Calc::utils::print_token(tok);
     // }
 
+    // std::string expr("(100-10*3)+(10-100*(30/15))");
+    std::string expr("10*(100-(-50))");
+
+    std::cout << "Expr: " << expr << std::endl;
+
     // parsing
     std::cout << "Start parsing..." << std::endl;
     std::cout << "Creating AST..." << std::endl;
     Calc::Parser parser;
-    auto root = parser.parse("10*(100-(-50))");
+    auto root = parser.parse(expr);
     // todo:
     // std::cout << "Check for types..." << std::endl;
     // Calc::compile::TypeChecker checker(parser.get_typetable());
@@ -45,7 +50,7 @@ int main()
 
     // print bytecode
     std::cout << std::endl;
-    for(auto& instruct : code)
+    for(const auto& instruct : code)
     {
         Calc::utils::print_instruct(instruct);
     }
@@ -55,5 +60,6 @@ int main()
     std::cout << "Start executing..." << std::endl;
     Calc::VM vm;
     auto result = vm.exec(code);
-    std::cout << "Executing Done! Result: " << result << std::endl;
+    std::cout << "Result: " << std::endl;
+    Calc::utils::print_value(result);
 }

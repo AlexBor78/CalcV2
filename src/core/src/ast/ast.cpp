@@ -69,19 +69,36 @@ namespace Calc::ast
         return child.get();
     }
 
-    // Number
+    // IntNumber
 
     void IntNumber::accept(ConstVisitor& visitor) const noexcept
     {
-        visitor.visit_num(*this);
+        visitor.visit_intnum(*this);
     }
 
     void IntNumber::accept(NodeVisitor& visitor) noexcept
     {
-        visitor.visit_num(*this);
+        visitor.visit_intnum(*this);
     }
 
     int IntNumber::get_num() const noexcept
+    {
+        return num;
+    }
+
+    // DoubleNumber
+
+    void DoubleNumber::accept(ConstVisitor& visitor) const noexcept
+    {
+        visitor.visit_doublenum(*this);
+    }
+
+    void DoubleNumber::accept(NodeVisitor& visitor) noexcept
+    {
+        visitor.visit_doublenum(*this);
+    }
+
+    double DoubleNumber::get_num() const noexcept
     {
         return num;
     }

@@ -1,9 +1,11 @@
+#include "runtime/value.h"
 #include <stdexcept>
 #include <runtime/vm.h>
+#include <runtime/vtables.h>
 
 namespace Calc
 {
-    int VM::exec(const std::vector<runtime::Instruction>& instructs)
+    runtime::Value VM::exec(const std::vector<runtime::Instruction>& instructs)
     {
         for(auto& instruction : instructs)
         {
@@ -33,8 +35,12 @@ namespace Calc
                     continue;
             }
         }
+        // auto res = pop();
+        // auto dres = res.cast(runtime::get_double_vtable());
+        // std::cout << "Double res: " << dres.as<double>() << std::endl;
+        // return res.as<int>();
         // bad!
-        return pop().as<int>();
+        return pop();
     }
 
     runtime::Value VM::pop()
@@ -61,7 +67,7 @@ namespace Calc
         }
         runtime::Value op1 = pop();
         runtime::Value op2 = pop();
-        push(op1.add(op2));
+        push(op1 + op2);
     }
 
     void VM::sub()
@@ -73,7 +79,7 @@ namespace Calc
         // change order because of stack
         runtime::Value op2 = pop();
         runtime::Value op1 = pop();
-        push(op1.sub(op2));
+        push(op1 - op2);
     }
 
     void VM::mul()
@@ -84,7 +90,7 @@ namespace Calc
         }
         runtime::Value op1 = pop();
         runtime::Value op2 = pop();
-        push(op1.mul(op2));
+        push(op1 * op2);
     }
 
     void VM::div()
@@ -96,11 +102,7 @@ namespace Calc
         // change order because of stack
         runtime::Value op2 = pop();
         runtime::Value op1 = pop();
-        if(op2.as<int>() == 0)
-        {
-            std::runtime_error("Division by 0");
-        }
-        push(op1.div(op2));
+        push(op1 / op2);
     }
 
     void VM::inverse()
@@ -110,6 +112,6 @@ namespace Calc
             throw std::runtime_error("Stack is empty");
         }
         runtime::Value op = pop();
-        push(op.inverse());
+        push(-op);
     }
 }

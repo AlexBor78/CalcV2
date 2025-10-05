@@ -22,6 +22,7 @@ namespace Calc::compile
     public:
         virtual void visit_binop(ast::BinOp&) noexcept;
         virtual void visit_unaryop(ast::UnaryOp&) noexcept;
-        virtual void visit_num(ast::IntNumber&) noexcept;
+        virtual void visit_intnum(ast::IntNumber&) noexcept;
+        virtual void visit_doublenum(ast::DoubleNumber&) noexcept;
     };
 }

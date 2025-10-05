@@ -24,6 +24,6 @@ namespace Calc
         void inverse();
 
     public:
-        int exec(const std::vector<runtime::Instruction>&);
+        runtime::Value exec(const std::vector<runtime::Instruction>&);
     };
 }

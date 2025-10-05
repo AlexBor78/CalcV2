@@ -1,3 +1,4 @@
+#include "ast/ast.h"
 #include <iostream>
 #include <utils/printast.h>
 
@@ -40,9 +41,14 @@ namespace Calc::utils
         root->accept(*this);
     }
 
-    void PrintAST::visit_num(const ast::IntNumber& num) noexcept
+    void PrintAST::visit_intnum(const ast::IntNumber& num) noexcept
     {
-        std::cout << prefix << "NumberNode: " << num.get_num() << std::endl;
+        std::cout << prefix << "IntNumber: " << num.get_num() << std::endl;
+    }
+
+    void PrintAST::visit_doublenum(const ast::DoubleNumber& num) noexcept
+    {
+        std::cout << prefix << "DoubleNumber: " << num.get_num() << std::endl;
     }
 
     void PrintAST::visit_binop(const ast::BinOp& op) noexcept

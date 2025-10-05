@@ -10,12 +10,22 @@ namespace Calc
         return std::move(code);
     }
 
-    void Compiler::visit_num(const ast::IntNumber& num) noexcept
+    void Compiler::visit_intnum(const ast::IntNumber& num) noexcept
     {
         code.emplace_back(
             runtime::OpCode::PUSH, 
             std::make_unique<runtime::Value>(
                 runtime::ValueFactory::make_int(num.get_num())
+            )
+        );
+    }
+
+    void Compiler::visit_doublenum(const ast::DoubleNumber& num) noexcept
+    {
+        code.emplace_back(
+            runtime::OpCode::PUSH, 
+            std::make_unique<runtime::Value>(
+                runtime::ValueFactory::make_double(num.get_num())
             )
         );
     }

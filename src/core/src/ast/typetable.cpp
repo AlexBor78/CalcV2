@@ -1,10 +1,12 @@
 #include <ast/typetable.h>
+#include <memory>
 
 namespace Calc::ast
 {
     void TypeTable::init_builtin()
     {
         table["int"] = std::make_unique<IntType>();
+        table["double"] = std::make_unique<DoubleType>();
     }
 
     TypeTable::TypeTable()
@@ -15,6 +17,11 @@ namespace Calc::ast
     const Type* TypeTable::get_int() const noexcept
     {
         return table.at("int").get();
+    }
+
+    const Type* TypeTable::get_double() const noexcept
+    {
+        return table.at("double").get();
     }
 
     const Type* TypeTable::get_type(std::string_view name) const noexcept

@@ -1,3 +1,4 @@
+#include "ast/ast.h"
 #include <compile/typechecker.h>
 
 namespace Calc::compile
@@ -29,8 +30,13 @@ namespace Calc::compile
         // }
     }
 
-    void TypeChecker::visit_num(ast::IntNumber& num) noexcept
+    void TypeChecker::visit_intnum(ast::IntNumber& num) noexcept
     {
-        // num is alright :)
+        // intnum is alright :)
+    }
+
+    void TypeChecker::visit_doublenum(ast::DoubleNumber& num) noexcept
+    {
+        // doublenum is alright :)
     }
 }

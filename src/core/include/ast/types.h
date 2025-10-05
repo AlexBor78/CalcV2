@@ -42,13 +42,15 @@ namespace Calc::ast
         virtual std::string_view get_name() const noexcept override {return "int";}
     };
 
-// in future:
-/*
     class DoubleType : public Builtin
     {
-
+    public:
+        DoubleType() = default;
+        virtual std::string_view get_name() const noexcept override {return "double";}
     };
 
+// in future:
+/*
     class UserType : public Type
     {
 

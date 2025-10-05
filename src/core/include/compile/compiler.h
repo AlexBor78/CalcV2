@@ -17,8 +17,8 @@ namespace Calc
         std::vector<runtime::Instruction> compile(ast::Expr*);
 
         virtual void visit_binop(const ast::BinOp&) noexcept override;
-        virtual void visit_num(const ast::IntNumber&) noexcept override;
         virtual void visit_unaryop(const ast::UnaryOp&) noexcept override;
-
+        virtual void visit_intnum(const ast::IntNumber&) noexcept override;
+        virtual void visit_doublenum(const ast::DoubleNumber&) noexcept override;
     };
 }

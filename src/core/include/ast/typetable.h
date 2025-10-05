@@ -18,7 +18,7 @@ namespace Calc::ast
         TypeTable();
 
         const Type* get_int() const noexcept;
-        // const Type* get_double() const;
+        const Type* get_double() const noexcept;
 
         const Type* get_type(std::string_view) const noexcept;
         bool has_type(std::string_view) const noexcept;

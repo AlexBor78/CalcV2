@@ -96,6 +96,23 @@ namespace Calc::ast
         virtual void accept(NodeVisitor&) noexcept override;
     };
 
+    class DoubleNumber : public Expr
+    {
+    private:
+        double num;
+    public:
+        DoubleNumber() = default;
+        explicit DoubleNumber(double _num):
+            num(_num)
+        {}
+
+        double get_num() const noexcept;
+
+        virtual void accept(ConstVisitor&) const noexcept override;
+        virtual void accept(NodeVisitor&) noexcept override;
+    };
+
+
     class ConstVisitor
     {
     protected:
@@ -104,7 +121,8 @@ namespace Calc::ast
     public:
         virtual void visit_binop(const BinOp&) noexcept = 0;
         virtual void visit_unaryop(const UnaryOp&) noexcept = 0;
-        virtual void visit_num(const IntNumber&) noexcept = 0;
+        virtual void visit_intnum(const IntNumber&) noexcept = 0;
+        virtual void visit_doublenum(const DoubleNumber&) noexcept = 0;
     };
 
     class NodeVisitor
@@ -115,6 +133,7 @@ namespace Calc::ast
     public:
         virtual void visit_binop(BinOp&) noexcept = 0;
         virtual void visit_unaryop(UnaryOp&) noexcept = 0;
-        virtual void visit_num(IntNumber&) noexcept = 0;
+        virtual void visit_intnum(IntNumber&) noexcept = 0;
+        virtual void visit_doublenum(DoubleNumber&) noexcept = 0;
     };
 }

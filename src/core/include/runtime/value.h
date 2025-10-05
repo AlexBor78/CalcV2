@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <iostream>
 #include <string_view>
 
 namespace Calc::runtime
@@ -11,18 +10,31 @@ namespace Calc::runtime
     {
     public:
         static Value make_int(int);
+        static Value make_double(double);
     };
 
     struct ValueVTable
     {
         std::string name;
+        // void* (*build)() = nullptr;
+        Value (*copy)(const Value&) = nullptr;
+        void (*destroy)(void*) = nullptr;
+
+        const ValueVTable* (*promote)(const ValueVTable*) = nullptr;
+        Value (*cast)(const Value&, const ValueVTable*) = nullptr;
+
+        void (*print)(const Value&) = nullptr;
+
+        // logical operators
+        bool (*equals)(const Value&, const Value&) = nullptr;
+        bool (*notequals)(const Value&, const Value&) = nullptr;
+
+        // math operators
         Value (*add)(const Value&, const Value&) = nullptr;
         Value (*sub)(const Value&, const Value&) = nullptr;
         Value (*mul)(const Value&, const Value&) = nullptr;
         Value (*div)(const Value&, const Value&) = nullptr;
         Value (*inverse)(const Value&) = nullptr;
-        void (*print)(const Value&) = nullptr;
-        void (*destroy)(void*) = nullptr;
     };
 
     class Value
@@ -30,6 +42,8 @@ namespace Calc::runtime
     private:
         void* value;
         const ValueVTable* vtable;
+
+        const ValueVTable* promote(const Value&) const;
 
     public:
         Value(void* v, const ValueVTable* t);
@@ -39,52 +53,40 @@ namespace Calc::runtime
         Value(Value&&);
         ~Value();
 
-        Value add(const Value&);
-        Value sub(const Value&);
-        Value mul(const Value&);
-        Value div(const Value&);
-        void print();
-        Value inverse();
+        Value cast(const ValueVTable*) const;
+        Value copy() const;
+
+        void print() const;
+
+        bool equals(const Value&) const;
+        bool notequals(const Value&) const;
+
+        Value add(const Value&) const;
+        Value sub(const Value&) const;
+        Value mul(const Value&) const;
+        Value div(const Value&) const;
+        Value inverse() const;
 
         std::string_view get_name() const noexcept;
+        const ValueVTable* get_vtable() const noexcept;
 
-        template<class T>
-        const T& as() const;
-    };
-
-    static const ValueVTable INT_VTABLE
-    {
-        .name = "int",
-        .add = [](const Value& left, const Value& right)
+        void* get_raw() noexcept;
+        const void* get_raw() const noexcept;
+        template<class T> const T& as() const noexcept
         {
-            return ValueFactory::make_int(left.as<int>() + right.as<int>());
-        },
-        .sub = [](const Value& left, const Value& right)
-        {
-            return ValueFactory::make_int(left.as<int>() - right.as<int>());
-        },
-        .mul = [](const Value& left, const Value& right)
-        {
-            return ValueFactory::make_int(left.as<int>() * right.as<int>());
-        },
-        .div = [](const Value& left, const Value& right)
-        {
-            return ValueFactory::make_int(left.as<int>() / right.as<int>());
-        },
-        .inverse = [](const Value& value)
-        {
-            return ValueFactory::make_int(-value.as<int>());
-        },
-        .print = [](const Value& value)
-        {
-            std::cout << value.get_name() << "(" << value.as<int>() << ")" << std::endl;
-        },
-        .destroy = [](void* ptr)
-        {
-            if(ptr != nullptr)
-            {
-                delete static_cast<int*>(ptr);
-            }
+            return *static_cast<T*>(value);
         }
+        template<class T> T& as() noexcept
+        {
+            return *static_cast<T*>(value);
+        }
+        
+        bool operator==(const Value&) const;
+        bool operator!=(const Value&) const;
+        Value operator+(const Value&) const;
+        Value operator-(const Value&) const;
+        Value operator*(const Value&) const;
+        Value operator/(const Value&) const;
+        Value operator-() const;
     };
 }
