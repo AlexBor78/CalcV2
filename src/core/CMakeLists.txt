@@ -13,6 +13,7 @@ set(sources
     src/compile/lexer.cpp
     src/compile/parser.cpp
     src/compile/compiler.cpp
+    src/compile/typechecker.cpp
     src/runtime/vm.cpp
     src/utils/utils.cpp
     src/utils/printast.cpp

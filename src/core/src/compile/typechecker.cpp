@@ -1,0 +1,36 @@
+#include <compile/typechecker.h>
+
+namespace Calc::compile
+{
+    void TypeChecker::check(ast::Expr* root)
+    {
+        root->accept(*this);
+    }
+
+    void TypeChecker::visit_binop(ast::BinOp& op)
+    {
+        op.get_left()->accept(*this);
+        op.get_right()->accept(*this);
+
+        // if(op.get_left()->get_type() == table.get_double()
+        // ||  op.get_right()->get_type() == table.get_double())
+        // {
+        //     op.set_type(table.get_double());
+        // }
+    }
+
+    void TypeChecker::visit_unaryop(ast::UnaryOp& op)
+    {
+        op.get_child()->accept(*this);
+
+        // if(op.get_child()->get_type() == table.get_double())
+        // {
+        //     op.set_type(table.get_double());
+        // }
+    }
+
+    void TypeChecker::visit_num(ast::Number& num)
+    {
+        // num is alright :)
+    }
+}

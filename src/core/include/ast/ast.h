@@ -19,6 +19,7 @@ namespace Calc::ast
         virtual void accept(ConstVisitor&) const noexcept = 0;
         virtual void accept(NodeVisitor&) noexcept = 0;
         const Type* get_type() const {return type;}
+        void set_type(const Type* _type) {type = _type;}
     };
 
     class BinOp : public Expr
@@ -127,8 +128,8 @@ namespace Calc::ast
         NodeVisitor() = default;
         
     public:
-        virtual void visit_binop(const BinOp&) = 0;
-        virtual void visit_unaryop(const UnaryOp&) = 0;
-        virtual void visit_num(const Number&) = 0;
+        virtual void visit_binop(BinOp&) = 0;
+        virtual void visit_unaryop(UnaryOp&) = 0;
+        virtual void visit_num(Number&) = 0;
     };
 }
