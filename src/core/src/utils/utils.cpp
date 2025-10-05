@@ -42,31 +42,33 @@ namespace Calc::utils
         std::cout << "Symbol: " << tok.sym << std::endl;
     }
 
-    void print_instruct(Calc::types::Instruction instruct)
+    void print_instruct(const Calc::runtime::Instruction& instruct)
     {
         switch (instruct.op)
         {
-            case(Calc::types::OpCode::PUSH):
-                std::cout << "PUSH " << instruct.operand << std::endl;
+            // bad! 
+            case(Calc::runtime::OpCode::PUSH):
+                std::cout << "PUSH ";
+                instruct.operand->print();
                 return;
 
-            case(Calc::types::OpCode::ADD):
+            case(Calc::runtime::OpCode::ADD):
                 std::cout << "ADD " << std::endl;
                 return;
 
-            case(Calc::types::OpCode::SUB):
+            case(Calc::runtime::OpCode::SUB):
                 std::cout << "SUB " << std::endl;
                 return;
 
-            case(Calc::types::OpCode::MUL):
+            case(Calc::runtime::OpCode::MUL):
                 std::cout << "MUL " << std::endl;
                 return;
 
-            case(Calc::types::OpCode::DIV):
+            case(Calc::runtime::OpCode::DIV):
                 std::cout << "DIV " << std::endl;
                 return;
 
-            case(Calc::types::OpCode::INVERSE):
+            case(Calc::runtime::OpCode::INVERSE):
                 std::cout << "INVERSE " << std::endl;
                 return;
         }

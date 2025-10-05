@@ -5,6 +5,7 @@
 
 #include <compile/lexer.h>
 #include <ast/ast.h>
+#include <ast/typetable.h>
 
 namespace Calc
 {
@@ -14,22 +15,19 @@ namespace Calc
         Lexer lexer;
         std::vector<types::Token> tokens;
         size_t pos{0};
-        
-    public:
-        Parser() = default;
-        ~Parser() = default;
-
-    public:
-
-        std::unique_ptr<ast::Expr> parse(const std::string&);
+        ast::TypeTable typetable;
 
     private:
-        types::Token curr();
-        types::Token peak(int);
-        types::Token next(int);
+        types::Token curr() const noexcept;
+        types::Token peak(int) const noexcept;
+        types::Token next(int) noexcept;
 
         std::unique_ptr<ast::Expr> parse_prim();
         std::unique_ptr<ast::Expr> parse_expr();
         std::unique_ptr<ast::Expr> parse_term();
+
+    public:
+        std::unique_ptr<ast::Expr> parse(const std::string&);
+        const ast::TypeTable& get_typetable() const noexcept;
     };
 }

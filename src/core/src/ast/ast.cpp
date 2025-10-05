@@ -24,17 +24,17 @@ namespace Calc::ast
         visitor.visit_binop(*this);
     }
 
-    BinOp::Kind BinOp::get_op() const
+    BinOp::Kind BinOp::get_op() const noexcept
     {
         return op;
     }
 
-    Expr* BinOp::get_left() const
+    Expr* BinOp::get_left() const noexcept
     {
         return left.get();
     }
 
-    Expr* BinOp::get_right() const
+    Expr* BinOp::get_right() const noexcept
     {
         return right.get();
     }
@@ -59,29 +59,29 @@ namespace Calc::ast
         visitor.visit_unaryop(*this);
     }
 
-    UnaryOp::Kind UnaryOp::get_kind() const
+    UnaryOp::Kind UnaryOp::get_kind() const noexcept
     {
         return kind;
     }
 
-    Expr* UnaryOp::get_child() const
+    Expr* UnaryOp::get_child() const noexcept
     {
         return child.get();
     }
 
     // Number
 
-    void Number::accept(ConstVisitor& visitor) const noexcept
+    void IntNumber::accept(ConstVisitor& visitor) const noexcept
     {
         visitor.visit_num(*this);
     }
 
-    void Number::accept(NodeVisitor& visitor) noexcept
+    void IntNumber::accept(NodeVisitor& visitor) noexcept
     {
         visitor.visit_num(*this);
     }
 
-    int Number::get_num() const
+    int IntNumber::get_num() const noexcept
     {
         return num;
     }

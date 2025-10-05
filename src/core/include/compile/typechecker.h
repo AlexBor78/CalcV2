@@ -10,6 +10,7 @@ namespace Calc::compile
     {
     private:
         const ast::TypeTable& table;
+        
     public:
         TypeChecker() = delete;
         explicit TypeChecker(const ast::TypeTable& _table):
@@ -19,8 +20,8 @@ namespace Calc::compile
         void check(ast::Expr*);
         
     public:
-        virtual void visit_binop(ast::BinOp&);
-        virtual void visit_unaryop(ast::UnaryOp&);
-        virtual void visit_num(ast::Number&);
+        virtual void visit_binop(ast::BinOp&) noexcept;
+        virtual void visit_unaryop(ast::UnaryOp&) noexcept;
+        virtual void visit_num(ast::IntNumber&) noexcept;
     };
 }

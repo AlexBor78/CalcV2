@@ -2,28 +2,72 @@
 
 namespace Calc::runtime
 {
-    int IntValue::get_value() const noexcept
+    Value ValueFactory::make_int(int v)
     {
-        return value;
+        int *buf = new int(v);
+        return std::move(Value(static_cast<void*>(buf), &INT_VTABLE));
     }
 
-    void IntValue::accept(ConstValueVisitor* visitor) const noexcept
-    {
-        visitor->visit_intvalue(*this);
+    Value::Value(void* v, const ValueVTable* vt):
+        value(v),
+        vtable(vt)
+    {}
+
+    Value::Value(Value& other):
+        value(other.value),
+        vtable(other.vtable){
+        other.value = nullptr;
     }
 
-    void IntValue::accept(MutValueVisitor* visitor) noexcept
-    {
-        visitor->visit_intvalue(*this);
+    Value::Value(Value&& other):
+        value(other.value),
+        vtable(other.vtable){
+        other.value = nullptr;
     }
 
-    void Value::accept(ConstValueVisitor* visitor) const noexcept
+    Value::~Value()
     {
-        value->accept(visitor);
+        vtable->destroy(value);
     }
 
-    void Value::accept(MutValueVisitor* visitor) noexcept
+    Value Value::add(const Value& v)
     {
-        value->accept(visitor);
+        return vtable->add(*this, v);
+    }
+
+    Value Value::sub(const Value& v)
+    {
+        return vtable->sub(*this, v);
+    }
+
+    Value Value::mul(const Value& v)
+    {
+        return vtable->mul(*this, v);
+    }
+
+    Value Value::div(const Value& v)
+    {
+        return vtable->div(*this, v);
+    }
+
+    Value Value::inverse()
+    {
+        return vtable->inverse(*this);
+    }
+
+    void Value::print()
+    {
+        vtable->print(*this);
+    }
+
+    template <class T>
+    const T& Value::as() const
+    {
+        return *static_cast<T*>(value);
+    }
+
+    std::string_view Value::get_name() const noexcept
+    {
+        return vtable->name;
     }
 }

@@ -28,11 +28,11 @@ namespace Calc
             }
             std::cerr << "Bad token: " << curr() << std::endl;
         }
-        tokens.push_back({types::TokenType::END});
+        tokens.emplace_back(types::TokenType::END);
         return tokens;
     }
 
-    char Lexer::curr()
+    char Lexer::curr() const noexcept
     {
         if(pos < input.size())
         {
@@ -40,7 +40,7 @@ namespace Calc
         }
         return 0;
     }
-    char Lexer::peak(int offset=1)
+    char Lexer::peak(int offset=1) const noexcept
     {
         if(pos + offset < input.size())
         {
@@ -48,7 +48,7 @@ namespace Calc
         }
         return 0;
     }
-    char Lexer::next(int offset=1)
+    char Lexer::next(int offset=1) noexcept
     {
         pos+=offset;
         if(pos < input.size())
@@ -68,31 +68,31 @@ namespace Calc
         || curr() == ')';
     }
 
-    void Lexer::add_token(types::Token tok)
+    void Lexer::add_token(types::Token tok) noexcept
     {
-        tokens.push_back(tok);
+        tokens.emplace_back(tok);
     }
-    void Lexer::add_token(types::TokenType tok)
+    void Lexer::add_token(types::TokenType tok) noexcept
     {
-        tokens.push_back({tok, nullptr});
+        tokens.emplace_back(tok, nullptr);
     }
-    void Lexer::add_token(types::TokenType tok, const char ch)
+    void Lexer::add_token(types::TokenType tok, const char ch) noexcept
     {
-        tokens.push_back({tok, std::string(1, ch)});
+        tokens.emplace_back(tok, std::string(1, ch));
     }
-    void Lexer::add_token(types::TokenType tok, const char* ch)
+    void Lexer::add_token(types::TokenType tok, const char* ch) noexcept
     {
-        tokens.push_back({tok, ch});
+        tokens.emplace_back(tok, ch);
     }
 
-    void Lexer::skip_spaces()
+    void Lexer::skip_spaces() noexcept
     {
         while (pos < input.size() && isspace(curr()))
         {
             next();
         }
     }
-    void Lexer::tokenize_number()
+    void Lexer::tokenize_number() noexcept
     {
         std::string buf("");
         while (pos < input.size() && isdigit(curr()))
@@ -102,7 +102,7 @@ namespace Calc
         }
         add_token(types::TokenType::NUMBER, buf.c_str());
     }
-    void Lexer::tokenize_punct()
+    void Lexer::tokenize_punct() noexcept
     {
         auto ch = curr(); 
         next();

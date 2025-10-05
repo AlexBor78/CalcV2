@@ -11,16 +11,11 @@ namespace Calc::utils
         std::string prefix{""};
 
     public:
-        PrintAST() = default;
-        ~PrintAST() = default;
-
-    public:
         void print(ast::Expr*) noexcept;
 
-    public:
-        virtual void visit_binop(const ast::BinOp&) override;
-        virtual void visit_unaryop(const ast::UnaryOp&) override;
-        virtual void visit_num(const ast::Number&) override;
+        virtual void visit_binop(const ast::BinOp&) noexcept override;
+        virtual void visit_unaryop(const ast::UnaryOp&) noexcept override;
+        virtual void visit_num(const ast::IntNumber&) noexcept override;
         
     };
 }

@@ -3,31 +3,27 @@
 #include <vector>
 #include <stack>
 
-#include <defs.h>
+#include <runtime/value.h>
+#include <runtime/bytecode.h>
 
 namespace Calc
 {
     class VM
     {
     private:
-    std::stack<int> stack;
+        std::stack<runtime::Value> stack;
 
     private:
-    int pop();
+        runtime::Value pop();
 
-    private:
-    void push(int);
-    void add();
-    void sub();
-    void mul();
-    void div();
-    void inverse();
-
-    public:
-    VM() = default;
-    ~VM() = default;
+        void push(runtime::Value);
+        void add();
+        void sub();
+        void mul();
+        void div();
+        void inverse();
 
     public:
-    int exec(const std::vector<types::Instruction>&);
+        int exec(const std::vector<runtime::Instruction>&);
     };
 }

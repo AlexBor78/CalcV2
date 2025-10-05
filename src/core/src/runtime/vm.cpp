@@ -3,54 +3,54 @@
 
 namespace Calc
 {
-    int VM::exec(const std::vector<types::Instruction>& instructs)
+    int VM::exec(const std::vector<runtime::Instruction>& instructs)
     {
-        for(auto instruction : instructs)
+        for(auto& instruction : instructs)
         {
             switch (instruction.op)
             {
-                case(types::OpCode::PUSH):
-                    push(instruction.operand);
+                case(runtime::OpCode::PUSH):
+                    push(std::move(*instruction.operand.get()));
                     continue;
 
-                case(types::OpCode::ADD):
+                case(runtime::OpCode::ADD):
                     add();
                     continue;
 
-                case(types::OpCode::SUB):
+                case(runtime::OpCode::SUB):
                     sub();
                     continue;
 
-                case(types::OpCode::MUL):
+                case(runtime::OpCode::MUL):
                     mul();
                     continue;
 
-                case(types::OpCode::DIV):
+                case(runtime::OpCode::DIV):
                     div();
                     continue;
-                case (types::OpCode::INVERSE):
+                case (runtime::OpCode::INVERSE):
                     inverse();
                     continue;
             }
         }
-        
-        return pop();
+        // bad!
+        return pop().as<int>();
     }
 
-    int VM::pop()
+    runtime::Value VM::pop()
     {
         if(stack.empty())
         {
             throw std::runtime_error("Stack is empty");
         }
-        int op = stack.top();
+        runtime::Value op = stack.top();
         stack.pop();
-        return op;
+        return std::move(op);
     }
 
-    void VM::push(int op)
+    void VM::push(runtime::Value op)
     {
-        stack.push(op);
+        stack.push(std::move(op));
     }
 
     void VM::add()
@@ -59,9 +59,9 @@ namespace Calc
         {
             throw std::runtime_error("not enough operands");
         }
-        int op1 = pop();
-        int op2 = pop();
-        push(op1 + op2);
+        runtime::Value op1 = pop();
+        runtime::Value op2 = pop();
+        push(op1.add(op2));
     }
 
     void VM::sub()
@@ -71,9 +71,9 @@ namespace Calc
             throw std::runtime_error("not enough operands");
         }
         // change order because of stack
-        int op2 = pop();
-        int op1 = pop();
-        push(op1 - op2);
+        runtime::Value op2 = pop();
+        runtime::Value op1 = pop();
+        push(op1.sub(op2));
     }
 
     void VM::mul()
@@ -82,9 +82,9 @@ namespace Calc
         {
             throw std::runtime_error("not enough operands");
         }
-        int op1 = pop();
-        int op2 = pop();
-        push(op1 * op2);
+        runtime::Value op1 = pop();
+        runtime::Value op2 = pop();
+        push(op1.mul(op2));
     }
 
     void VM::div()
@@ -94,13 +94,13 @@ namespace Calc
             throw std::runtime_error("not enough operands");
         }
         // change order because of stack
-        int op2 = pop();
-        int op1 = pop();
-        if(op2 == 0)
+        runtime::Value op2 = pop();
+        runtime::Value op1 = pop();
+        if(op2.as<int>() == 0)
         {
             std::runtime_error("Division by 0");
         }
-        push(op1 / op2);
+        push(op1.div(op2));
     }
 
     void VM::inverse()
@@ -109,7 +109,7 @@ namespace Calc
         {
             throw std::runtime_error("Stack is empty");
         }
-        int op = pop();
-        push(-op);
+        runtime::Value op = pop();
+        push(op.inverse());
     }
 }

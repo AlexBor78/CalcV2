@@ -6,6 +6,7 @@
 #include <compile/lexer.h>
 #include <compile/parser.h>
 #include <compile/compiler.h>
+#include <compile/typechecker.h>
 #include <runtime/vm.h>
 
 int main()
@@ -20,13 +21,21 @@ int main()
 
     // parsing
     std::cout << "Start parsing..." << std::endl;
+    std::cout << "Creating AST..." << std::endl;
     Calc::Parser parser;
     auto root = parser.parse("10*(100-(-50))");
+    // todo:
+    // std::cout << "Check for types..." << std::endl;
+    // Calc::compile::TypeChecker checker(parser.get_typetable());
+    // checker.check(root.get());
+
     std::cout << "Parsing done!" << std::endl;
 
     // print ast
+    std::cout << std::endl;
     Calc::utils::PrintAST printer;
     printer.print(root.get());
+    std::cout << std::endl;
 
     // compiling
     std::cout << "Start compiling..." << std::endl;
@@ -35,10 +44,12 @@ int main()
     std::cout << "Done Compiling!" << std::endl;
 
     // print bytecode
-    for(auto instruct : code)
+    std::cout << std::endl;
+    for(auto& instruct : code)
     {
         Calc::utils::print_instruct(instruct);
     }
+    std::cout << std::endl;
 
     // executing
     std::cout << "Start executing..." << std::endl;

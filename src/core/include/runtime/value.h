@@ -1,56 +1,90 @@
 #pragma once
 
-#include <memory>
+#include <string>
+#include <iostream>
+#include <string_view>
 
 namespace Calc::runtime
 {
-    class ConstValueVisitor;
-    class MutValueVisitor;
-
-    class IValue
+    class Value;
+    class ValueFactory
     {
-    protected:
-        IValue() = default;
     public:
-        virtual void accept(ConstValueVisitor*) const noexcept = 0;
-        virtual void accept(MutValueVisitor*) noexcept = 0;
+        static Value make_int(int);
     };
 
-    class IntValue : IValue
+    struct ValueVTable
     {
-    private:
-        int value;
-    public:
-        IntValue() = delete;
-        explicit IntValue(int v): value(v) {}
-        virtual void accept(ConstValueVisitor*) const noexcept override;
-        virtual void accept(MutValueVisitor*) noexcept override;
-
-        int get_value() const noexcept;
+        std::string name;
+        Value (*add)(const Value&, const Value&) = nullptr;
+        Value (*sub)(const Value&, const Value&) = nullptr;
+        Value (*mul)(const Value&, const Value&) = nullptr;
+        Value (*div)(const Value&, const Value&) = nullptr;
+        Value (*inverse)(const Value&) = nullptr;
+        void (*print)(const Value&) = nullptr;
+        void (*destroy)(void*) = nullptr;
     };
 
     class Value
     {
     private:
-        std::unique_ptr<IValue> value;
+        void* value;
+        const ValueVTable* vtable;
+
     public:
-        void accept(ConstValueVisitor*) const noexcept;
-        void accept(MutValueVisitor*) noexcept;
+        Value(void* v, const ValueVTable* t);
+        Value& operator=(const Value&) = delete;
+        Value(const Value&) = delete;
+        Value(Value&);
+        Value(Value&&);
+        ~Value();
+
+        Value add(const Value&);
+        Value sub(const Value&);
+        Value mul(const Value&);
+        Value div(const Value&);
+        void print();
+        Value inverse();
+
+        std::string_view get_name() const noexcept;
+
+        template<class T>
+        const T& as() const;
     };
 
-    class ConstValueVisitor
+    static const ValueVTable INT_VTABLE
     {
-    protected:
-        ConstValueVisitor() = default;
-    public:
-        virtual void visit_intvalue(const IntValue&) = 0;
-    };
-
-    class MutValueVisitor
-    {
-    protected:
-        MutValueVisitor() = default;
-    public:
-        virtual void visit_intvalue(IntValue&) = 0;
+        .name = "int",
+        .add = [](const Value& left, const Value& right)
+        {
+            return ValueFactory::make_int(left.as<int>() + right.as<int>());
+        },
+        .sub = [](const Value& left, const Value& right)
+        {
+            return ValueFactory::make_int(left.as<int>() - right.as<int>());
+        },
+        .mul = [](const Value& left, const Value& right)
+        {
+            return ValueFactory::make_int(left.as<int>() * right.as<int>());
+        },
+        .div = [](const Value& left, const Value& right)
+        {
+            return ValueFactory::make_int(left.as<int>() / right.as<int>());
+        },
+        .inverse = [](const Value& value)
+        {
+            return ValueFactory::make_int(-value.as<int>());
+        },
+        .print = [](const Value& value)
+        {
+            std::cout << value.get_name() << "(" << value.as<int>() << ")" << std::endl;
+        },
+        .destroy = [](void* ptr)
+        {
+            if(ptr != nullptr)
+            {
+                delete static_cast<int*>(ptr);
+            }
+        }
     };
 }

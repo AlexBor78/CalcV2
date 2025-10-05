@@ -7,16 +7,21 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
-set(sources 
+set(sources
+# utils
+    src/utils/utils.cpp
+    src/utils/printast.cpp
+# ast
     src/ast/ast.cpp
     src/ast/typetable.cpp
+# compile
     src/compile/lexer.cpp
     src/compile/parser.cpp
     src/compile/compiler.cpp
     src/compile/typechecker.cpp
+# runtime
+    src/runtime/value.cpp
     src/runtime/vm.cpp
-    src/utils/utils.cpp
-    src/utils/printast.cpp
 )
 
 add_library(${PROJECT_NAME} STATIC ${sources})

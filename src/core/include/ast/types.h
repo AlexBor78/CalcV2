@@ -17,9 +17,9 @@ namespace Calc::ast
         Type() = default;
 
     public:
-        virtual Kind get_kind() const = 0;
-        virtual std::string_view get_name() const = 0;
-        bool operator==(const Type& other) const
+        virtual Kind get_kind() const noexcept = 0;
+        virtual std::string_view get_name() const noexcept = 0;
+        bool operator==(const Type& other) const noexcept
         {
             return this == &other;
         }
@@ -31,15 +31,15 @@ namespace Calc::ast
         Builtin() = default;
 
     public:
-        virtual Kind get_kind() const override {return Kind::BUILTIN;}
-        virtual std::string_view get_name() const override = 0;
+        virtual Kind get_kind() const noexcept override {return Kind::BUILTIN;}
+        virtual std::string_view get_name() const noexcept override = 0;
     };
 
     class IntType : public Builtin
     {
     public:
         IntType() = default;
-        virtual std::string_view get_name() const override {return "int";}
+        virtual std::string_view get_name() const noexcept override {return "int";}
     };
 
 // in future:

@@ -40,12 +40,12 @@ namespace Calc::utils
         root->accept(*this);
     }
 
-    void PrintAST::visit_num(const ast::Number& num)
+    void PrintAST::visit_num(const ast::IntNumber& num) noexcept
     {
         std::cout << prefix << "NumberNode: " << num.get_num() << std::endl;
     }
 
-    void PrintAST::visit_binop(const ast::BinOp& op)
+    void PrintAST::visit_binop(const ast::BinOp& op) noexcept
     {
         std::cout << prefix << "BinOpNode: op:" << binoptostr(op.get_op()) << std::endl;
         prefix+='\t';
@@ -58,7 +58,7 @@ namespace Calc::utils
         prefix.pop_back();
     }
 
-    void PrintAST::visit_unaryop(const ast::UnaryOp& op)
+    void PrintAST::visit_unaryop(const ast::UnaryOp& op) noexcept
     {
         std::cout << prefix << "UnaryOpNode: op:" << unaryoptostr(op.get_kind()) << std::endl;
         prefix+='\t';

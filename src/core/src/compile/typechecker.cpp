@@ -7,7 +7,7 @@ namespace Calc::compile
         root->accept(*this);
     }
 
-    void TypeChecker::visit_binop(ast::BinOp& op)
+    void TypeChecker::visit_binop(ast::BinOp& op) noexcept
     {
         op.get_left()->accept(*this);
         op.get_right()->accept(*this);
@@ -19,7 +19,7 @@ namespace Calc::compile
         // }
     }
 
-    void TypeChecker::visit_unaryop(ast::UnaryOp& op)
+    void TypeChecker::visit_unaryop(ast::UnaryOp& op) noexcept
     {
         op.get_child()->accept(*this);
 
@@ -29,7 +29,7 @@ namespace Calc::compile
         // }
     }
 
-    void TypeChecker::visit_num(ast::Number& num)
+    void TypeChecker::visit_num(ast::IntNumber& num) noexcept
     {
         // num is alright :)
     }

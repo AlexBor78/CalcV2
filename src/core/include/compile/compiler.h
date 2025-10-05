@@ -2,27 +2,23 @@
 
 #include <vector>
 
-#include <defs.h>
+#include <compile/defs.h>
 #include <ast/ast.h>
+#include <runtime/bytecode.h>
 
 namespace Calc
 {
     class Compiler : public ast::ConstVisitor
     {
     private:
-        std::vector<types::Instruction> code;
+        std::vector<runtime::Instruction> code;
 
     public:
-        Compiler() = default;
-        ~Compiler() = default;
+        std::vector<runtime::Instruction> compile(ast::Expr*);
 
-    public:
-        std::vector<types::Instruction> compile(ast::Expr*);
-
-    public:
-        virtual void visit_binop(const ast::BinOp&) override;
-        virtual void visit_num(const ast::Number&) override;
-        virtual void visit_unaryop(const ast::UnaryOp&) override;
+        virtual void visit_binop(const ast::BinOp&) noexcept override;
+        virtual void visit_num(const ast::IntNumber&) noexcept override;
+        virtual void visit_unaryop(const ast::UnaryOp&) noexcept override;
 
     };
 }

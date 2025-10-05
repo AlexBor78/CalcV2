@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include <defs.h>
+#include <compile/defs.h>
 
 namespace Calc
 {
@@ -14,27 +14,22 @@ namespace Calc
         size_t pos{0};
 
     private:
-        char curr();
-        char peak(int);
-        char next(int);
+        char curr() const noexcept;
+        char peak(int) const noexcept;
+        char next(int) noexcept;
 
         bool is_punct();
 
-        void skip_spaces();
-        void tokenize_number();
-        void tokenize_punct();
+        void skip_spaces() noexcept;
+        void tokenize_number() noexcept;
+        void tokenize_punct() noexcept;
 
-        void add_token(types::Token);
-        void add_token(types::TokenType);
-        void add_token(types::TokenType, const char);
-        void add_token(types::TokenType, const char*);
-
+        void add_token(types::Token) noexcept;
+        void add_token(types::TokenType) noexcept;
+        void add_token(types::TokenType, const char) noexcept;
+        void add_token(types::TokenType, const char*) noexcept;
 
     public:
         std::vector<types::Token> tokenize(const std::string&);
-
-    public:
-        Lexer() = default;
-        ~Lexer() = default;
     };
 }

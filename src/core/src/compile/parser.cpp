@@ -7,36 +7,41 @@
 
 namespace Calc
 {
+    const ast::TypeTable& Parser::get_typetable() const noexcept
+    {
+        return typetable;
+    }
+
     std::unique_ptr<ast::Expr> Parser::parse(const std::string& str)
     {
         tokens = lexer.tokenize(str);
         return parse_expr();
     }
 
-    types::Token Parser::curr()
+    types::Token Parser::curr() const noexcept
     {
         if(pos < tokens.size())
         {
             return tokens[pos];
         }
-        return {types::TokenType::END};
+        return types::Token::end_token();
     }
-    types::Token Parser::peak(int offset=1)
+    types::Token Parser::peak(int offset=1) const noexcept
     {
         if(pos + offset < tokens.size())
         {
             return tokens[pos + offset];
         }
-        return {types::TokenType::END};
+        return types::Token::end_token();
     }
-    types::Token Parser::next(int offset=1)
+    types::Token Parser::next(int offset=1) noexcept
     {
         pos+=offset;
         if(pos < tokens.size())
         {
             return tokens[pos];
         }
-        return {types::TokenType::END};
+        return types::Token::end_token();
     }
 
     std::unique_ptr<ast::Expr> Parser::parse_prim()
@@ -45,7 +50,9 @@ namespace Calc
         {
             auto tok = curr();
             next();
-            return std::make_unique<ast::Number>(std::stoi(tok.sym));
+            return std::make_unique<ast::IntNumber>(
+                std::stoi(tok.sym)
+            );
         }
         if(curr().tt == types::TokenType::LEFT_BRACKET)
         {

@@ -21,21 +21,13 @@ namespace Calc::types
     {
         TokenType tt;
         std::string sym;
-    };
 
-    enum class OpCode : uint8_t
-    {
-        PUSH,
-        ADD,
-        SUB,
-        MUL,
-        DIV,
-        INVERSE
-    };
-
-    struct Instruction
-    {
-        OpCode op;
-        int operand;
+        static Token end_token() {return Token(TokenType::END);}
+        Token(TokenType _tt, std::string _sym):
+            tt(_tt), sym(_sym)
+        {}
+        explicit Token(TokenType _tt):
+            tt(_tt), sym("")
+        {}
     };
 }

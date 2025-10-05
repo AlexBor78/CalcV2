@@ -12,12 +12,12 @@ namespace Calc::ast
         init_builtin();
     }
 
-    const Type* TypeTable::get_int() const
+    const Type* TypeTable::get_int() const noexcept
     {
         return table.at("int").get();
     }
 
-    const Type* TypeTable::get_type(std::string_view name) const
+    const Type* TypeTable::get_type(std::string_view name) const noexcept
     {
         auto type = table.find(name);
         if(type != table.end())
@@ -27,9 +27,8 @@ namespace Calc::ast
         return nullptr;
     }
 
-    bool TypeTable::has_type(std::string_view name) const
+    bool TypeTable::has_type(std::string_view name) const noexcept
     {
         return get_type(name) != nullptr;
-    }
-    
+    }    
 }

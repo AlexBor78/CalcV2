@@ -15,11 +15,12 @@ namespace Calc::ast
         const Type* type;
         Expr() = default;
         explicit Expr(const Type* _type): type(_type) {}
+
     public:
         virtual void accept(ConstVisitor&) const noexcept = 0;
         virtual void accept(NodeVisitor&) noexcept = 0;
-        const Type* get_type() const {return type;}
-        void set_type(const Type* _type) {type = _type;}
+        const Type* get_type() const noexcept {return type;}
+        void set_type(const Type* _type) noexcept {type = _type;}
     };
 
     class BinOp : public Expr
@@ -45,9 +46,9 @@ namespace Calc::ast
             std::unique_ptr<Expr> _right
         );
 
-        Kind get_op() const;
-        Expr* get_left() const;
-        Expr* get_right() const;
+        Kind get_op() const noexcept;
+        Expr* get_left() const noexcept;
+        Expr* get_right() const noexcept;
 
         virtual void accept(ConstVisitor&) const noexcept override;
         virtual void accept(NodeVisitor&) noexcept override;
@@ -72,24 +73,8 @@ namespace Calc::ast
             std::unique_ptr<Expr> _child
         );
 
-        Kind get_kind() const;
-        Expr* get_child() const;
-
-        virtual void accept(ConstVisitor&) const noexcept override;
-        virtual void accept(NodeVisitor&) noexcept override;
-    };
-
-    class Number : public Expr
-    {
-    private:
-        int num;
-    public:
-        Number() = default;
-        Number(int _num):
-            num(_num)
-        {}
-
-        int get_num() const;
+        Kind get_kind() const noexcept;
+        Expr* get_child() const noexcept;
 
         virtual void accept(ConstVisitor&) const noexcept override;
         virtual void accept(NodeVisitor&) noexcept override;
@@ -101,11 +86,11 @@ namespace Calc::ast
         int num;
     public:
         IntNumber() = default;
-        IntNumber(int _num):
+        explicit IntNumber(int _num):
             num(_num)
         {}
 
-        int get_num() const;
+        int get_num() const noexcept;
 
         virtual void accept(ConstVisitor&) const noexcept override;
         virtual void accept(NodeVisitor&) noexcept override;
@@ -117,9 +102,9 @@ namespace Calc::ast
         ConstVisitor() = default;
         
     public:
-        virtual void visit_binop(const BinOp&) = 0;
-        virtual void visit_unaryop(const UnaryOp&) = 0;
-        virtual void visit_num(const Number&) = 0;
+        virtual void visit_binop(const BinOp&) noexcept = 0;
+        virtual void visit_unaryop(const UnaryOp&) noexcept = 0;
+        virtual void visit_num(const IntNumber&) noexcept = 0;
     };
 
     class NodeVisitor
@@ -128,8 +113,8 @@ namespace Calc::ast
         NodeVisitor() = default;
         
     public:
-        virtual void visit_binop(BinOp&) = 0;
-        virtual void visit_unaryop(UnaryOp&) = 0;
-        virtual void visit_num(Number&) = 0;
+        virtual void visit_binop(BinOp&) noexcept = 0;
+        virtual void visit_unaryop(UnaryOp&) noexcept = 0;
+        virtual void visit_num(IntNumber&) noexcept = 0;
     };
 }
