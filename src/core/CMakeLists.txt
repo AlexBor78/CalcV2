@@ -9,6 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(sources 
     src/ast/ast.cpp
+    src/ast/typetable.cpp
     src/compile/lexer.cpp
     src/compile/parser.cpp
     src/compile/compiler.cpp
