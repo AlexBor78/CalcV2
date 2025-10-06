@@ -18,10 +18,11 @@ namespace Calc
         char peak(int) const noexcept;
         char next(int) noexcept;
 
-        bool is_punct();
+        bool is_punct() noexcept;
+        bool is_num() noexcept;
 
         void skip_spaces() noexcept;
-        void tokenize_number() noexcept;
+        void tokenize_number();
         void tokenize_punct() noexcept;
 
         void add_token(types::Token) noexcept;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cctype>
 #include <compile/lexer.h>
+#include <stdexcept>
 
 namespace Calc
 {
@@ -14,19 +15,18 @@ namespace Calc
             {
                 skip_spaces();
             }
-
-            if(isdigit(curr()))
+            if(is_num())
             {
                 tokenize_number();
                 continue;
             }
-
             if(is_punct())
             {
                 tokenize_punct();
                 continue;
             }
             std::cerr << "Bad token: " << curr() << std::endl;
+            next(1);
         }
         tokens.emplace_back(types::TokenType::END);
         return tokens;
@@ -58,7 +58,7 @@ namespace Calc
         return 0;
     }
 
-    bool Lexer::is_punct()
+    bool Lexer::is_punct() noexcept
     {
         return curr() == '+'
         || curr() == '-'
@@ -66,6 +66,10 @@ namespace Calc
         || curr() == '/'
         || curr() == '('
         || curr() == ')';
+    }
+    bool Lexer::is_num() noexcept
+    {
+        return isdigit(curr()) || curr() == '.';
     }
 
     void Lexer::add_token(types::Token tok) noexcept
@@ -92,13 +96,33 @@ namespace Calc
             next();
         }
     }
-    void Lexer::tokenize_number() noexcept
+    void Lexer::tokenize_number()
     {
         std::string buf("");
-        while (pos < input.size() && isdigit(curr()))
-        {
-            buf += curr();
-            next();
+        bool has_dot{false};
+        while (pos < input.size()
+        &&  (isdigit(curr()) || (!has_dot && curr() == '.'))
+        ){
+            if(isdigit(curr()))
+            {
+                buf += curr();
+                next();
+                continue;
+            }
+            if(curr() == '.')
+            {
+                if(has_dot)
+                {
+                    throw std::runtime_error("bad number: " + buf + curr());
+                }
+                if(buf.empty())
+                {
+                    buf+='0';
+                }
+                has_dot = true;
+                buf += curr();
+                next();
+            }
         }
         add_token(types::TokenType::NUMBER, buf.c_str());
     }

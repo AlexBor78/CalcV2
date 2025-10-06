@@ -1,3 +1,4 @@
+#include "ast/ast.h"
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -50,8 +51,15 @@ namespace Calc
         {
             auto tok = curr();
             next();
-            return std::make_unique<ast::IntNumber>(
-                std::stoi(tok.sym)
+            auto dotpos = tok.sym.find('.');
+            if(dotpos == std::string::npos)
+            {
+                return std::make_unique<ast::IntNumber>(
+                    std::stoi(tok.sym)
+                );
+            }
+            return std::make_unique<ast::DoubleNumber>(
+                std::stod(tok.sym)
             );
         }
         if(curr().tt == types::TokenType::LEFT_BRACKET)
@@ -77,6 +85,10 @@ namespace Calc
                     ast::UnaryOp::Kind::MINUS, parse_prim()
                 );
             }
+            next();
+            return std::make_unique<ast::UnaryOp>(
+                ast::UnaryOp::Kind::PLUS, parse_prim()
+            );
         }
 
         std::cerr << "bad prim" << std::endl;
@@ -95,13 +107,15 @@ namespace Calc
                 case(types::TokenType::PLUS):
                     next();
                     left = std::make_unique<ast::BinOp>(
-                        ast::BinOp::Kind::PLUS, std::move(left), parse_term()
+                        ast::BinOp::Kind::PLUS, 
+                        std::move(left), parse_term()
                     ); break;
 
                 case(types::TokenType::MINUS):
                     next();
                     left = std::make_unique<ast::BinOp>(
-                        ast::BinOp::Kind::MINUS, std::move(left), parse_term()
+                        ast::BinOp::Kind::MINUS, 
+                        std::move(left), parse_term()
                     ); break;
 
                 default:
@@ -122,13 +136,15 @@ namespace Calc
                 case(types::TokenType::MUL):
                     next();
                     left = std::make_unique<ast::BinOp>(
-                        ast::BinOp::Kind::MUL, std::move(left), parse_prim()
+                        ast::BinOp::Kind::MUL, 
+                        std::move(left), parse_prim()
                     ); break;
 
                 case(types::TokenType::DIV):
                     next();
                     left = std::make_unique<ast::BinOp>(
-                        ast::BinOp::Kind::DIV, std::move(left), parse_prim()
+                        ast::BinOp::Kind::DIV, 
+                        std::move(left), parse_prim()
                     ); break;
 
                 default:

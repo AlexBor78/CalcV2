@@ -13,21 +13,21 @@ namespace Calc::compile
         op.get_left()->accept(*this);
         op.get_right()->accept(*this);
 
-        // if(op.get_left()->get_type() == table.get_double()
-        // ||  op.get_right()->get_type() == table.get_double())
-        // {
-        //     op.set_type(table.get_double());
-        // }
+        if(op.get_left()->get_type() == table.get_double()
+        ||  op.get_right()->get_type() == table.get_double())
+        {
+            op.set_type(table.get_double());
+        }
     }
 
     void TypeChecker::visit_unaryop(ast::UnaryOp& op) noexcept
     {
         op.get_child()->accept(*this);
 
-        // if(op.get_child()->get_type() == table.get_double())
-        // {
-        //     op.set_type(table.get_double());
-        // }
+        if(op.get_child()->get_type() == table.get_double())
+        {
+            op.set_type(table.get_double());
+        }
     }
 
     void TypeChecker::visit_intnum(ast::IntNumber& num) noexcept

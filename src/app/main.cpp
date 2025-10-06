@@ -12,29 +12,30 @@
 int main()
 {
     // Calc::Lexer lexer;
-    // auto tokens = lexer.tokenize("10*(100-50)");
+    // auto tokens = lexer.tokenize("1 1.5 0.5 .10");
 
     // for(auto tok : tokens)
     // {
     //     Calc::utils::print_token(tok);
     // }
+    // return 0;
 
     // std::string expr("(100-10*3)+(10-100*(30/15))");
-    std::string expr("10*(100-(-50))");
+    std::string expr("10*(100-(-50)) + +.52");
+    std::cout << "Expr: " << expr << std::endl << std::endl;
 
-    std::cout << "Expr: " << expr << std::endl;
+    std::cout << "Start compilation!" << std::endl;
 
-    // parsing
-    std::cout << "Start parsing..." << std::endl;
-    std::cout << "Creating AST..." << std::endl;
+    // ast
+    std::cout << "Creating AST...";
     Calc::Parser parser;
     auto root = parser.parse(expr);
-    // todo:
-    // std::cout << "Check for types..." << std::endl;
-    // Calc::compile::TypeChecker checker(parser.get_typetable());
-    // checker.check(root.get());
+    std::cout << " done!" << std::endl;
 
-    std::cout << "Parsing done!" << std::endl;
+    std::cout << "Check for types...";
+    Calc::compile::TypeChecker checker(parser.get_typetable());
+    checker.check(root.get());
+    std::cout << " done!" << std::endl;
 
     // print ast
     std::cout << std::endl;
@@ -43,10 +44,12 @@ int main()
     std::cout << std::endl;
 
     // compiling
-    std::cout << "Start compiling..." << std::endl;
+    std::cout << "Generating bytecode...";
     Calc::Compiler compiler;
     auto code = compiler.compile(root.get());
-    std::cout << "Done Compiling!" << std::endl;
+    std::cout << " done!" << std::endl;
+
+    std::cout << "Compilation done!" << std::endl;
 
     // print bytecode
     std::cout << std::endl;
@@ -57,9 +60,10 @@ int main()
     std::cout << std::endl;
 
     // executing
-    std::cout << "Start executing..." << std::endl;
+    std::cout << "Start executing...";
     Calc::VM vm;
     auto result = vm.exec(code);
+    std::cout << " done!" << std::endl;
     std::cout << "Result: " << std::endl;
     Calc::utils::print_value(result);
 }
