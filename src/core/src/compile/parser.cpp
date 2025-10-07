@@ -1,10 +1,12 @@
 #include "ast/ast.h"
+#include "compile/defs.h"
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <iostream>
 
 #include <compile/parser.h>
+#include <vector>
 
 namespace Calc
 {
@@ -13,34 +15,34 @@ namespace Calc
         return typetable;
     }
 
-    std::unique_ptr<ast::Expr> Parser::parse(const std::string& str)
+    std::unique_ptr<ast::Expr> Parser::parse(const std::vector<types::Token>& _tokens)
     {
-        tokens = lexer.tokenize(str);
+        tokens = &_tokens;
         return parse_expr();
     }
 
     types::Token Parser::curr() const noexcept
     {
-        if(pos < tokens.size())
+        if(pos < tokens->size())
         {
-            return tokens[pos];
+            return tokens->at(pos);
         }
         return types::Token::end_token();
     }
     types::Token Parser::peak(int offset=1) const noexcept
     {
-        if(pos + offset < tokens.size())
+        if(pos + offset < tokens->size())
         {
-            return tokens[pos + offset];
+            return tokens->at(pos + offset);
         }
         return types::Token::end_token();
     }
     types::Token Parser::next(int offset=1) noexcept
     {
         pos+=offset;
-        if(pos < tokens.size())
+        if(pos < tokens->size())
         {
-            return tokens[pos];
+            return tokens->at(pos);
         }
         return types::Token::end_token();
     }

@@ -11,27 +11,34 @@
 
 int main()
 {
-    // Calc::Lexer lexer;
-    // auto tokens = lexer.tokenize("1 1.5 0.5 .10");
-
-    // for(auto tok : tokens)
-    // {
-    //     Calc::utils::print_token(tok);
-    // }
-    // return 0;
-
+    Calc::Lexer lexer;
+    std::string expr = "57+687*(37/5)";
     // std::string expr("(100-10*3)+(10-100*(30/15))");
-    std::string expr("10*(100-(-50)) + +.52");
-    std::cout << "Expr: " << expr << std::endl << std::endl;
+    // std::string expr("10*(100-(-50)) + +.52");
 
+    std::cout << "Expr: " << expr << std::endl << std::endl;
     std::cout << "Start compilation!" << std::endl;
+
+    // tokens
+    std::cout << "Tokenizing...";
+    auto tokens = lexer.tokenize(expr);
+    std::cout << " done!" << std::endl;
+
+    // print tokens
+    std::cout << std::endl;
+    for(auto tok : tokens)
+    {
+        Calc::utils::print_token(tok);
+    }
+    std::cout << std::endl;
 
     // ast
     std::cout << "Creating AST...";
     Calc::Parser parser;
-    auto root = parser.parse(expr);
+    auto root = parser.parse(tokens);
     std::cout << " done!" << std::endl;
 
+    // Typecheck
     std::cout << "Check for types...";
     Calc::compile::TypeChecker checker(parser.get_typetable());
     checker.check(root.get());
@@ -43,7 +50,7 @@ int main()
     printer.print(root.get());
     std::cout << std::endl;
 
-    // compiling
+    // codegen
     std::cout << "Generating bytecode...";
     Calc::Compiler compiler;
     auto code = compiler.compile(root.get());

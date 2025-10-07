@@ -1,7 +1,8 @@
 #pragma once
 
+#include "compile/defs.h"
 #include <memory>
-#include <string>
+#include <vector>
 
 #include <compile/lexer.h>
 #include <ast/ast.h>
@@ -13,7 +14,7 @@ namespace Calc
     {
     private:
         Lexer lexer;
-        std::vector<types::Token> tokens;
+        const std::vector<types::Token>* tokens;
         size_t pos{0};
         ast::TypeTable typetable;
 
@@ -27,7 +28,7 @@ namespace Calc
         std::unique_ptr<ast::Expr> parse_term();
 
     public:
-        std::unique_ptr<ast::Expr> parse(const std::string&);
+        std::unique_ptr<ast::Expr> parse(const std::vector<types::Token>&);
         const ast::TypeTable& get_typetable() const noexcept;
     };
 }
