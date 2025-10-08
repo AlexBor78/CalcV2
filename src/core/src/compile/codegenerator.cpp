@@ -4,7 +4,7 @@
 
 namespace Calc
 {
-    std::vector<runtime::Instruction> CodeGenerator::compile(ast::Expr* root)
+    std::vector<runtime::Instruction> CodeGenerator::generate(ast::Expr* root)
     {
         root->accept(*this);
         return std::move(code);

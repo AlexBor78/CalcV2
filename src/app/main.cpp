@@ -5,7 +5,7 @@
 
 #include <compile/lexer.h>
 #include <compile/parser.h>
-#include <compile/compiler.h>
+#include <compile/codegenerator.h>
 #include <compile/typechecker.h>
 #include <runtime/vm.h>
 
@@ -52,8 +52,8 @@ int main()
 
     // codegen
     std::cout << "Generating bytecode...";
-    Calc::CodeGenerator compiler;
-    auto code = compiler.compile(root.get());
+    Calc::CodeGenerator codegenerator;
+    auto code = codegenerator.generate(root.get());
     std::cout << " done!" << std::endl;
 
     std::cout << "Compilation done!" << std::endl;
