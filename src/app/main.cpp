@@ -52,7 +52,7 @@ int main()
 
     // codegen
     std::cout << "Generating bytecode...";
-    Calc::Compiler compiler;
+    Calc::CodeGenerator compiler;
     auto code = compiler.compile(root.get());
     std::cout << " done!" << std::endl;
 

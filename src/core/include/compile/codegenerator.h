@@ -8,7 +8,7 @@
 
 namespace Calc
 {
-    class Compiler : public ast::ConstVisitor
+    class CodeGenerator : public ast::ConstVisitor
     {
     private:
         std::vector<runtime::Instruction> code;

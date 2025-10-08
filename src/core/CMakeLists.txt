@@ -17,8 +17,8 @@ set(sources
 # compile
     src/compile/lexer.cpp
     src/compile/parser.cpp
-    src/compile/compiler.cpp
     src/compile/typechecker.cpp
+    src/compile/codegenerator.cpp
 # runtime
     src/runtime/vtables.cpp
     src/runtime/value.cpp

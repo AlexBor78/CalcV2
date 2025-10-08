@@ -1,16 +1,16 @@
-#include <compile/compiler.h>
+#include <compile/codegenerator.h>
 #include <memory>
 #include <vector>
 
 namespace Calc
 {
-    std::vector<runtime::Instruction> Compiler::compile(ast::Expr* root)
+    std::vector<runtime::Instruction> CodeGenerator::compile(ast::Expr* root)
     {
         root->accept(*this);
         return std::move(code);
     }
 
-    void Compiler::visit_intnum(const ast::IntNumber& num) noexcept
+    void CodeGenerator::visit_intnum(const ast::IntNumber& num) noexcept
     {
         code.emplace_back(
             runtime::OpCode::PUSH, 
@@ -20,7 +20,7 @@ namespace Calc
         );
     }
 
-    void Compiler::visit_doublenum(const ast::DoubleNumber& num) noexcept
+    void CodeGenerator::visit_doublenum(const ast::DoubleNumber& num) noexcept
     {
         code.emplace_back(
             runtime::OpCode::PUSH, 
@@ -30,7 +30,7 @@ namespace Calc
         );
     }
 
-    void Compiler::visit_unaryop(const ast::UnaryOp& op) noexcept
+    void CodeGenerator::visit_unaryop(const ast::UnaryOp& op) noexcept
     {
         op.get_child()->accept(*this);
         if(op.get_kind() == ast::UnaryOp::Kind::MINUS)
@@ -39,7 +39,7 @@ namespace Calc
         }
     }
 
-    void Compiler::visit_binop(const ast::BinOp& op) noexcept
+    void CodeGenerator::visit_binop(const ast::BinOp& op) noexcept
     {
         op.get_left()->accept(*this);
         op.get_right()->accept(*this);
