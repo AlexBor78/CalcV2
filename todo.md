@@ -1,5 +1,5 @@
 # Todo:
-- [ ] rename Compiler -> CodeGenerator
+- [X] rename Compiler -> CodeGenerator
 - [ ] add bytecode optimizer
 - [ ] add variables
     - [ ] add Scope
@@ -15,4 +15,4 @@
 <!--
     my Error type, to throw position of error with error
 -->
-- [ ] 
+- [ ] add README.md :)
