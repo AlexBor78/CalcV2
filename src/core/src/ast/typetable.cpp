@@ -1,5 +1,4 @@
 #include <ast/typetable.h>
-#include <memory>
 
 namespace Calc::ast
 {

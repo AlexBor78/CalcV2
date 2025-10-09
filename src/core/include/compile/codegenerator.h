@@ -2,7 +2,6 @@
 
 #include <vector>
 
-#include <compile/defs.h>
 #include <ast/ast.h>
 #include <runtime/bytecode.h>
 

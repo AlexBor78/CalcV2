@@ -19,10 +19,6 @@ namespace Calc::ast
     public:
         virtual Kind get_kind() const noexcept = 0;
         virtual std::string_view get_name() const noexcept = 0;
-        bool operator==(const Type& other) const noexcept
-        {
-            return this == &other;
-        }
     };
 
     class Builtin : public Type

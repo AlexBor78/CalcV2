@@ -36,7 +36,7 @@ namespace Calc::utils
         return "UNKNOWN OPERATOR";
     }
 
-    void PrintAST::print(ast::Expr* root) noexcept
+    void PrintAST::print(const ast::Expr* root) noexcept
     {
         root->accept(*this);
     }

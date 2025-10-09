@@ -11,7 +11,7 @@ namespace Calc::utils
         std::string prefix{""};
 
     public:
-        void print(ast::Expr*) noexcept;
+        void print(const ast::Expr*) noexcept;
 
         virtual void visit_binop(const ast::BinOp&) noexcept override;
         virtual void visit_unaryop(const ast::UnaryOp&) noexcept override;

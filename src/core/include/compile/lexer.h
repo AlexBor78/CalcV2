@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+
 #include <compile/defs.h>
 
 namespace Calc
@@ -15,8 +16,8 @@ namespace Calc
 
     private:
         char curr() const noexcept;
-        char peak(int) const noexcept;
-        char next(int) noexcept;
+        char peak(int offset = 1) const noexcept;
+        char next(int offset = 1) noexcept;
 
         bool is_punct() noexcept;
         bool is_num() noexcept;

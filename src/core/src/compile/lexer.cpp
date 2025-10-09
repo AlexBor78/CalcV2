@@ -40,7 +40,7 @@ namespace Calc
         }
         return 0;
     }
-    char Lexer::peak(int offset=1) const noexcept
+    char Lexer::peak(int offset) const noexcept
     {
         if(pos + offset < input.size())
         {
@@ -48,7 +48,7 @@ namespace Calc
         }
         return 0;
     }
-    char Lexer::next(int offset=1) noexcept
+    char Lexer::next(int offset) noexcept
     {
         pos+=offset;
         if(pos < input.size())

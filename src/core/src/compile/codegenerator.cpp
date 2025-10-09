@@ -1,6 +1,5 @@
 #include <compile/codegenerator.h>
 #include <memory>
-#include <vector>
 
 namespace Calc
 {

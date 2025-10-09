@@ -29,7 +29,7 @@ namespace Calc
         }
         return types::Token::end_token();
     }
-    types::Token Parser::peak(int offset=1) const noexcept
+    types::Token Parser::peak(int offset) const noexcept
     {
         if(pos + offset < tokens->size())
         {
@@ -37,7 +37,7 @@ namespace Calc
         }
         return types::Token::end_token();
     }
-    types::Token Parser::next(int offset=1) noexcept
+    types::Token Parser::next(int offset) noexcept
     {
         pos+=offset;
         if(pos < tokens->size())

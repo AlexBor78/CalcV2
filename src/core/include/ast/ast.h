@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-
 #include <ast/types.h>
 
 namespace Calc::ast
@@ -12,7 +11,7 @@ namespace Calc::ast
     class Expr
     {
     protected:
-        const Type* type;
+        const Type* type{nullptr};
         Expr() = default;
         explicit Expr(const Type* _type): type(_type) {}
 
@@ -47,8 +46,11 @@ namespace Calc::ast
         );
 
         Kind get_op() const noexcept;
-        Expr* get_left() const noexcept;
-        Expr* get_right() const noexcept;
+        const Expr* get_left() const noexcept;
+        const Expr* get_right() const noexcept;
+
+        Expr* get_left() noexcept;
+        Expr* get_right() noexcept;
 
         virtual void accept(ConstVisitor&) const noexcept override;
         virtual void accept(NodeVisitor&) noexcept override;
@@ -74,7 +76,8 @@ namespace Calc::ast
         );
 
         Kind get_kind() const noexcept;
-        Expr* get_child() const noexcept;
+        const Expr* get_child() const noexcept;
+        Expr* get_child() noexcept;
 
         virtual void accept(ConstVisitor&) const noexcept override;
         virtual void accept(NodeVisitor&) noexcept override;

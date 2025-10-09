@@ -29,12 +29,22 @@ namespace Calc::ast
         return op;
     }
 
-    Expr* BinOp::get_left() const noexcept
+    const Expr* BinOp::get_left() const noexcept
     {
         return left.get();
     }
 
-    Expr* BinOp::get_right() const noexcept
+    const Expr* BinOp::get_right() const noexcept
+    {
+        return right.get();
+    }
+
+    Expr* BinOp::get_left() noexcept
+    {
+        return left.get();
+    }
+
+    Expr* BinOp::get_right() noexcept
     {
         return right.get();
     }
@@ -64,7 +74,12 @@ namespace Calc::ast
         return kind;
     }
 
-    Expr* UnaryOp::get_child() const noexcept
+    const Expr* UnaryOp::get_child() const noexcept
+    {
+        return child.get();
+    }
+
+    Expr* UnaryOp::get_child() noexcept
     {
         return child.get();
     }

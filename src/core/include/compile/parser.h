@@ -20,8 +20,8 @@ namespace Calc
 
     private:
         types::Token curr() const noexcept;
-        types::Token peak(int) const noexcept;
-        types::Token next(int) noexcept;
+        types::Token peak(int offset = 1) const noexcept;
+        types::Token next(int offset = 1) noexcept;
 
         std::unique_ptr<ast::Expr> parse_prim();
         std::unique_ptr<ast::Expr> parse_expr();
