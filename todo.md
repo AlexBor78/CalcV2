@@ -1,5 +1,6 @@
 # Todo:
 - [X] rename Compiler -> CodeGenerator
+- [ ] rewrite vm
 - [ ] add bytecode optimizer
 - [ ] add variables
     - [ ] add Scope
